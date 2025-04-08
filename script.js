@@ -123,6 +123,8 @@ function createSubTaskElement(backlogId, subTask) {
     const backlog = data.find(item => item.id === backlogId);
     backlog.list = backlog.list.filter(item => item.id !== subTask.id);
     li.remove();
+
+    console.log(subTask.text + " 삭제");
   });
 
   //li 클릭 시 삭제 버튼 토글 이벤트
