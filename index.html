@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>하위 태스크 테스트</title>
+  <style>
+    .sub-task-input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.sub-task-input {
+  flex: 1;
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: 1px solid #555;
+}
+
+.add-sub-task-btn {
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+  </style>
+</head>
+<body>
+
+<!-- 백로그 내부 -->
+<div class="backlog" data-id="1">
+  <div class="sub-task-input-row">
+    <input class="sub-task-input" />
+    <button class="add-sub-task-btn">+ 추가</button>
+  </div>
+
+  <!--입력한 하위 태스크 보여주기-->
+  <ul class="sub-task-list"></ul>
+  <!--기존 태스크와 입력된 태스크 리스트 (li) 생성-->
+  
+</div>
+
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
