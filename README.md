@@ -1,5 +1,5 @@
 # subTaskController (하위 태스크 관리 / 생성 및 삭제)
-- data (테스트를 위한 더미 데이터)
+data (테스트를 위한 더미 데이터)
 ```
 const data = [
   {
@@ -40,10 +40,10 @@ function renderInitialSubTasks() {
   });
 }
 ```
-
-data 배열을 순회하면서 각 백로그에 해당하는 DOM 요소를 찾고 랜더링
-하위 태스크는 createSubTaskElement(backlog.id, sub)를 통해 `<ul>` 태그 하위 `<li>`로 생성되어 UI에 추가됨.
-디버깅을 위해 기존 태스크 로그 출력 (현재는 더미 데이터를 넣어두어 콘솔 로그에 기존 더미 데이터 값 출력)
+<br>
+- data 배열을 순회하면서 각 백로그에 해당하는 DOM 요소를 찾고 랜더링
+- 하위 태스크는 `createSubTaskElement(backlog.id, sub)`를 통해 `<ul>` 태그 하위 `<li>`로 생성되어 UI에 추가됨.
+- 디버깅을 위해 기존 태스크 로그 출력 (현재는 더미 데이터를 넣어두어 콘솔 로그에 기존 더미 데이터 값 출력)
 <br>
 
 2. addSubTaskToUI
@@ -70,10 +70,10 @@ function addSubTaskToUI(backlogId, subTaskText) {
   console.log("하위 태스크 ID: " + newSubTaskId + " / 하위 태스크 내용: " + subTaskText);
 }
 ```
-
-특정 백로그에 새로운 하위 태스크 추가
-Date.now()를 이용하여 고유 ID를 간단하게 생성하여 새로운 태스크 객체를 만들고 data에 저장.
-DOM에서도 해당 백로그의 하위 리스트(.sub-task-list)에 새로운 `<li>` 생성
+<br>
+- 특정 백로그에 새로운 하위 태스크 추가
+- `Date.now()`를 이용하여 고유 ID를 간단하게 생성하여 새로운 태스크 객체를 만들고 data에 저장.
+- DOM에서도 해당 백로그의 하위 리스트(.sub-task-list)에 새로운 `<li>` 생성
 <br>
 
 3. createSubTaskElement
@@ -115,9 +115,9 @@ function createSubTaskElement(backlogId, subTask) {
   return li;
 }
 ```
-
-하위 태스크 `<li>` 요소를 생성하고, 삭제 버튼을 동적으로 포함 시킴 (삭제는 `<li>` 요소를 클릭하면 버튼이 나타나고 사라짐)
-삭제 버튼 클릭하면 해당 태스가 data 배열에서 삭제, DOM에서도 삭제된 `<li>` 요소를 제거함.
+<br>
+- 하위 태스크 `<li>` 요소를 생성하고, 삭제 버튼을 동적으로 포함 시킴 (삭제는 `<li>` 요소를 클릭하면 버튼이 나타나고 사라짐)
+- 삭제 버튼 클릭하면 해당 태스가 data 배열에서 삭제, DOM에서도 삭제된 `<li>` 요소를 제거함.
 <br>
 
 4. 입력창과 버튼에 대한 이벤트
@@ -142,9 +142,9 @@ ocument.querySelectorAll('.backlog').forEach(backlogElement => {
 });
 ```
 <br>
-각 백로그 영역의 입력창과 추가 버튼 바인딩
-버튼 클릭 또는 Enter키 입력 시 addSubTaskToUI()가 호출되어 하위 태스크 추가
-입력 후 입력창의 데이터는 자동 초기화 (입력하고 clear됨)
+- 각 백로그 영역의 입력창과 추가 버튼 바인딩
+- 버튼 클릭 또는 Enter키 입력 시 `addSubTaskToUI()`가 호출되어 하위 태스크 추가
+- 입력 후 입력창의 데이터는 자동 초기화 (입력하고 clear됨)
 
 5. 실행 시작
 초기 로딩 시 기존 data의 내용을 기반으로 화면에 하위 태스크 랜더링 (현재는 더미 데이터)
