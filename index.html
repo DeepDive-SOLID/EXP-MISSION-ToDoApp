@@ -20,10 +20,10 @@
       <!-- 백로그 -->
       <section class="backLog">
         <h3 class="sectionTitle">Back Log</h3>
-        <hr>
+        <hr />
         <!-- 백로그 검색 및 추가 -->
         <div class="backlogHeader">
-          <input type="text" placeholder="Search tasks..." class="searchBar"/>
+          <input type="text" placeholder="Search tasks..." class="searchBar" />
           <button class="searchButton">🔍︎</button>
           <button class="addTask">+</button>
         </div>
@@ -33,7 +33,7 @@
           <!-- 메인 태스크 -->
           <div class="maintaskContainer">
             <input type="text" class="taskContent" />
-            
+
             <div class="importanceDropdown">
               <div class="selected">
                 <span class="circle high"></span>
@@ -45,7 +45,7 @@
                 <li data-value="3"><span class="circle low"></span> 하</li>
               </ul>
             </div>
-            
+
             <button class="edit">✎</button>
             <button class="delete">🗑︎</button>
             <div class="finishDateContainer">
@@ -58,22 +58,34 @@
       <!-- 현재 태스크 -->
       <section class="current">
         <h3 class="sectionTitle">Current Tasks</h3>
-        <hr>
+        <hr />
         <div class="currentTaskContainer">
           <!-- 여기에 main task가 js로 들어올 예정 -->
-
-          <button class="edit">edit</button>
-          <!-- 접기/펼치기 버튼 -->
-          <button class="toggleSubtask">▼</button>
+          <div class="mainTaskEx">
+            <span class="mainTaskName">스터디 회의 준비</span>
+            <div class="taskDueDate">종료일: 2025-04-10</div>
+          </div>
+          <div class="taskButtons">
+            <button class="edit">✎</button>
+            <!-- 접기/펼치기 버튼 -->
+            <button class="toggleSubtask">▼</button>
+          </div>
         </div>
 
         <!-- 하위 태스크: 기본은 숨김 -->
         <div class="subtaskContainer hidden">
+          <!-- 여기에 하위태스크 js 들어옴 -->
           <div class="subtaskItem">
             <input type="checkbox" class="subtaskCheck" />
             <span class="subtaskText">하위 태스크 내용</span>
-            <button class="subtaskDelete">삭제</button>
+            <button class="subtaskDelete">🗑︎</button>
           </div>
+          <div class="subtaskItem">
+            <input type="checkbox" class="subtaskCheck" />
+            <span class="subtaskText">하위 태스크 내용2</span>
+            <button class="subtaskDelete">🗑︎</button>
+          </div>
+
           <button class="addSubtaskBtn">+</button>
         </div>
       </section>
@@ -81,7 +93,7 @@
       <!-- 완료된 태스크 -->
       <section class="complete">
         <h3 class="sectionTitle">Completed Tasks</h3>
-        <hr>
+        <hr />
 
         <div class="completedTaskContainer">
           <!-- JS에서 이 안에 완료된 task가 들어옴 -->
@@ -89,7 +101,7 @@
           <div class="completedTaskItem">
             <div class="completedTaskTitle">할 일 제목</div>
             <div class="completedTaskDate">2025-04-07</div>
-          </div>          
+          </div>
         </div>
       </section>
     </main>

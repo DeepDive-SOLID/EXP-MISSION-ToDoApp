@@ -240,12 +240,9 @@ main {
   transition: background-color 0.2s;
 }
 
-.edit:hover {
-  background-color: #c0e6ff;
-}
-
+.edit:hover,
 .delete:hover {
-  background-color: #c0e6ff;
+  background-color: #d0d0d0;
 }
 
 /* 마감일 컨테이너 */
@@ -273,6 +270,119 @@ main {
   overflow-y: auto;
 }
 
+/* 현재 태스크 컨테이너 */
+.currentTaskContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  gap: 10px;
+  padding: 12px 16px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  justify-content: space-between;
+}
+
+/* 메인 테스크 예시 정보 */
+.mainTaskEx {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mainTaskName {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.taskDueDate {
+  font-size: 12px;
+  color: #888;
+}
+
+/* edit 버튼 및 toggle 버튼 */
+.taskButtons {
+  display: flex;
+  gap: 8px;
+}
+
+.edit,
+.toggleSubtask {
+  width: 40px;
+  padding: 6px 10px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #e0e0e0;
+  transition: background-color 0.2s;
+}
+
+.edit:hover,
+.toggleSubtask:hover {
+  background-color: #d0d0d0;
+}
+
+/* 하위 태스크 컨테이너 */
+.subtaskContainer {
+  margin-left: 20px;
+  margin-top: 10px;
+}
+
+/* 개별 하위 태스크 아이템 */
+.subtaskItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+  padding: 8px 10px;
+  border: 1px dashed #bbb; /* 작성 가이드 선 */
+  border-radius: 6px;
+  background-color: #fff;
+}
+
+/* 텍스트와 체크박스 그룹 */
+.subtaskCheck,
+.subtaskText {
+  margin-right: 10px;
+}
+
+/* 삭제 버튼 */
+.subtaskDelete {
+  padding: 4px 8px;
+  font-size: 12px;
+  border: none;
+  border-radius: 6px;
+  background-color: #e0e0e0;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.subtaskDelete:hover {
+  background-color: #d0d0d0;
+}
+
+/* 추가 버튼 */
+.addSubtaskBtn {
+  display: block;
+  width: 30px;
+  margin: 10px auto 0 auto;
+  padding: 4px 12px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  background-color: #0090FE;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.addSubtaskBtn:hover {
+  background-color: #0064b1;
+}
 
 /* 하위태스크 접기 펼치기 */
 .hidden {
