@@ -22,7 +22,7 @@ const data = [
 <br>
 #js 파일 기능
 1. renderInitialSubTasks
-```
+
 function renderInitialSubTasks() {
   data.forEach(backlog => {
     const backlogElement = document.querySelector(`.backlog[data-id="${backlog.id}"]`);
