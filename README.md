@@ -42,7 +42,7 @@ function renderInitialSubTasks() {
 ```
 <br>
 - data 배열을 순회하면서 각 백로그에 해당하는 DOM 요소를 찾고 랜더링
-- 하위 태스크는 `createSubTaskElement(backlog.id, sub)`를 통해 `<ul>` 태그 하위 `<li>`로 생성되어 UI에 추가됨.
+- 하위 태스크는 createSubTaskElement(backlog.id, sub)를 통해 `<ul>` 태그 하위 요소 `<li>`로 생성되어 UI에 추가됨.
 - 디버깅을 위해 기존 태스크 로그 출력 (현재는 더미 데이터를 넣어두어 콘솔 로그에 기존 더미 데이터 값 출력)
 <br>
 
