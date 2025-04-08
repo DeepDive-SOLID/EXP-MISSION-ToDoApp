@@ -42,6 +42,7 @@ function renderInitialSubTasks() {
 }
 ```
 <br>
+
 - data 배열을 순회하면서 각 백로그에 해당하는 DOM 요소를 찾고 랜더링
 
 - 하위 태스크는 createSubTaskElement(backlog.id, sub)를 통해 `<ul>` 태그 하위 요소 `<li>`로 생성되어 UI에 추가됨.
@@ -74,6 +75,7 @@ function addSubTaskToUI(backlogId, subTaskText) {
 }
 ```
 <br>
+
 - 특정 백로그에 새로운 하위 태스크 추가
 
 - `Date.now()`를 이용하여 고유 ID를 간단하게 생성하여 새로운 태스크 객체를 만들고 data에 저장.
@@ -150,11 +152,14 @@ ocument.querySelectorAll('.backlog').forEach(backlogElement => {
 });
 ```
 <br>
+
 - 각 백로그 영역의 입력창과 추가 버튼 바인딩
 
 - 버튼 클릭 또는 Enter키 입력 시 `addSubTaskToUI()`가 호출되어 하위 태스크 추가
   
 - 입력 후 입력창의 데이터는 자동 초기화 (입력하고 clear됨)
+
+<br>
 
 5. 실행 시작
 
