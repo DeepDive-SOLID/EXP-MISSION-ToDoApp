@@ -41,7 +41,6 @@ function renderInitialSubTasks() {
   });
 }
 ```
-<br>
 
 - data 배열을 순회하면서 각 백로그에 해당하는 DOM 요소를 찾고 랜더링
 
@@ -74,7 +73,6 @@ function addSubTaskToUI(backlogId, subTaskText) {
   console.log("하위 태스크 ID: " + newSubTaskId + " / 하위 태스크 내용: " + subTaskText);
 }
 ```
-<br>
 
 - 특정 백로그에 새로운 하위 태스크 추가
 
@@ -122,7 +120,6 @@ function createSubTaskElement(backlogId, subTask) {
   return li;
 }
 ```
-<br>
 
 - 하위 태스크 `<li>` 요소를 생성하고, 삭제 버튼을 동적으로 포함 시킴 (삭제는 `<li>` 요소를 클릭하면 버튼이 나타나고 사라짐)
   
@@ -151,7 +148,6 @@ ocument.querySelectorAll('.backlog').forEach(backlogElement => {
   });
 });
 ```
-<br>
 
 - 각 백로그 영역의 입력창과 추가 버튼 바인딩
 
