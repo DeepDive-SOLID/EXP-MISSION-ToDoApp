@@ -1,5 +1,6 @@
 # subTaskController (하위 태스크 관리 / 생성 및 삭제)
 - data (테스트를 위한 더미 데이터)
+```
 const data = [
   {
     id: 1,
@@ -13,5 +14,6 @@ const data = [
     ]
   }
 ];
+```
 
 - 백로그 항목 1개를 나타내는 데이터 배열
