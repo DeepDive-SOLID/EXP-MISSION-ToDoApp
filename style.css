@@ -87,7 +87,11 @@ main {
   padding: 10px;
   border-radius: 10px;
   background-color: #f9f9f9;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 600px; /* 원하는 고정 높이 설정 */
+  overflow: hidden;
 }
 
 /* 백로그 헤더 */
@@ -103,6 +107,19 @@ main {
   gap: 10px;
   margin-bottom: 10px;
   padding: 10px 10px;
+}
+
+/* 고정되는 타이틀 + hr */
+.backlogFixedHeader {
+  flex-shrink: 0;
+  background-color: #f9f9f9;
+  z-index: 1;
+}
+/* 스크롤되는 나머지 내용 */
+.backlogScrollArea {
+  overflow-y: auto;
+  flex-grow: 1;
+  padding: 10px;
 }
 
 .searchBar {
@@ -141,7 +158,7 @@ main {
 
 /* 백로그 태스크 생성 부분 */
 .taskContainer {
-  margin-top: 20px;
+  margin-top: 5px;
 }
 
 /* 메인 태스크 박스 */
@@ -264,10 +281,29 @@ main {
   grid-column: 2 / 3;
   grid-row: 1 / 2;
   border: 1px solid #ddd;
-  padding: 10px;
   border-radius: 10px;
   background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  height: 600px; /* or 원하는 고정 높이 */
+}
+
+/* 고정되는 헤더 (타이틀 + hr) */
+.currentHeader {
+  position: sticky;
+  top: 0;
+  background-color: #f9f9f9;
+  z-index: 10;
+  padding: 10px;
+  flex-shrink: 0; /* 고정 크기 유지 */
+}
+
+
+/* 이 부분에만 스크롤! */
+.currentScrollArea {
   overflow-y: auto;
+  flex-grow: 1;
+  padding: 10px;
 }
 
 /* 현재 태스크 컨테이너 */
@@ -368,7 +404,7 @@ main {
 /* 추가 버튼 */
 .addSubtaskBtn {
   display: block;
-  width: 30px;
+  width: 32px;
   margin: 10px auto 0 auto;
   padding: 4px 12px;
   font-size: 14px;
@@ -378,6 +414,7 @@ main {
   color: white;
   cursor: pointer;
   transition: background-color 0.2s;
+  align-self: center;
 }
 
 .addSubtaskBtn:hover {

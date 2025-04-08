@@ -21,19 +21,32 @@
 //     }
 //   ];
 
-// 하위태스크 접기/펼치기
+// 하위태스크 접기/펼치기 토글
 document.addEventListener("DOMContentLoaded", () => {
-  const toggleBtn = document.querySelector(".toggleSubtask");
-  const subtaskContainer = document.querySelector(".subtaskContainer");
+  const toggleBtns = document.querySelectorAll(".toggleSubtask");
 
-  toggleBtn.addEventListener("click", () => {
-    subtaskContainer.classList.toggle("hidden");
+  toggleBtns.forEach((toggleBtn) => {
+    toggleBtn.addEventListener("click", () => {
+      const wrapper = toggleBtn.closest(".currentTaskWrapper");
+      const subtaskContainer = wrapper.querySelector(".subtaskContainer");
 
-    toggleBtn.textContent = subtaskContainer.classList.contains("hidden")
-      ? "▼"
-      : "▲";
+      subtaskContainer.classList.toggle("hidden");
+
+      toggleBtn.textContent = subtaskContainer.classList.contains("hidden")
+        ? "▼"
+        : "▲";
+
+      // 펼쳐질 경우 자동 스크롤
+      if (!subtaskContainer.classList.contains("hidden")) {
+        subtaskContainer.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest"
+        });
+      }
+    });
   });
 });
+
 
 // 중요도 선택지 
 document.querySelectorAll(".importanceDropdown").forEach((dropdown) => {
