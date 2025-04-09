@@ -1,5 +1,4 @@
 let todos = [];
-
 // 전체 backlog 리스트를 담을 div DOM
 const backLogList = document.querySelector(".backlogScrollArea");
 const addTask = document.querySelector(".addTask");
@@ -48,8 +47,11 @@ const importanceContainer = (items) => {
   const label = document.createElement("span");
   label.classList.add("label");
   // 처음 생성 시 중요도는 (하) 고정
-  label.innerText = "하";
-  selectedCircle.classList.add("low");
+  items.importance === 1
+    ? ((label.innerText = "상"), selectedCircle.classList.add("high"))
+    : items.importance === 2
+    ? ((label.innerText = "중"), selectedCircle.classList.add("medium"))
+    : ((label.innerText = "하"), selectedCircle.classList.add("low"));
 
   const dropdownOptions = document.createElement("ul");
   dropdownOptions.classList.add("dropdownOptions");
@@ -111,7 +113,6 @@ const newElement = (items) => {
   // backLog의 컨텐츠들을 담을 main 컨테이너
   const backLogMainContainer = document.createElement("div");
   backLogMainContainer.classList.add("maintaskContainer");
-  backLogMainContainer.style.backgroundColor = dDay(items);
 
   // backLog taskContent를 적을 input
   const backLogTaskContent = document.createElement("input");
@@ -121,6 +122,7 @@ const newElement = (items) => {
   backLogTaskContent.value = items.title;
   eventListener.createTitle(backLogTaskContent, items);
   eventListener.blurContent(backLogTaskContent);
+  backLogContainer.focus();
 
   // 수정 버튼 생성
   const editBtn = document.createElement("button");
@@ -179,6 +181,7 @@ const eventListener = {
     deleteBtn.addEventListener("click", (e) => {
       backLogList.removeChild(backLogContainer);
       todos = todos.filter((item) => item.id !== items.id);
+      console.log(todos);
     });
   },
   // 중요도 클릭 시
@@ -208,7 +211,21 @@ const eventListener = {
           : items.importance === 2
           ? ((label.innerText = "중"), selectedCircle.classList.add("medium"))
           : ((label.innerText = "하"), selectedCircle.classList.add("low"));
+
+        sortTodos();
       });
     });
   },
+};
+
+// 정렬 코드
+const sortTodos = () => {
+  todos.sort((a, b) => a.importance - b.importance);
+
+  // 정렬된 todos 배열을 화면에 다시 렌더링하는 코드 추가
+  backLogList.innerHTML = "";
+  todos.forEach((item) => {
+    const { backLogContainer } = newElement(item);
+    backLogList.appendChild(backLogContainer);
+  });
 };
