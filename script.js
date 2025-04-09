@@ -72,3 +72,36 @@ data.forEach((todo) => {
     // 할 일 항목(todoDiv)을 전체 컨테이너에 추가
     container.appendChild(todoDiv);
 });
+
+
+// 완료된 태스크 아래로 옮는 함수
+const renderCompletedTasks = () => {
+    // .completedTaskContainer라는 클래스를 가진 요소를 찾아서 container 변수에 저장
+    const container = document.querySelector(".completedTaskContainer");
+    // 중복 생성 방지를 위해 화면 초기화
+    container.innerHTML = "";
+
+    // complete: true인 항목을 completed 베열에 넣기
+    const completed = data.filter(item => item.complete);
+
+    // 배열을 하나씩 순회하면서 item이라는 이름으로 꺼내옴
+    completed.forEach(item => {
+        // div, className 만든다
+        const taskItem = document.createElement("div");
+        taskItem.className = "completedTaskItem";
+
+        const titleDiv = document.createElement("div");
+        titleDiv.className = "completedTaskTitle";
+        titleDiv.textContent = item.title || "(제목 없음)";
+        
+        const dateDiv = document.createElement("div");
+        dateDiv.className = "completedTaskDate";
+        dateDiv.textContent = item.date;
+        
+        taskItem.appendChild(titleDiv);
+        taskItem.appendChild(dateDiv);
+        container.appendChild(taskItem);
+    });
+};
+
+renderCompletedTasks();
