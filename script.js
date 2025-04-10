@@ -74,7 +74,7 @@ data.forEach((todo) => {
 });
 
 
-// 완료된 태스크 아래로 옮는 함수
+// 완료된 태스크 아래로 옮기는 함수
 const renderCompletedTasks = () => {
     // .completedTaskContainer라는 클래스를 가진 요소를 찾아서 container 변수에 저장
     const container = document.querySelector(".completedTaskContainer");
