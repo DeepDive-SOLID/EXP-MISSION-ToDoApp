@@ -90,9 +90,10 @@ const renderCompletedTasks = () => {
         const taskItem = document.createElement("div");
         taskItem.className = "completedTaskItem";
 
+        // 완료된 항목에 하이픈 처리
         const titleDiv = document.createElement("div");
         titleDiv.className = "completedTaskTitle";
-        titleDiv.textContent = item.title || "(제목 없음)";
+        titleDiv.innerHTML = `<del>${item.title || "(제목 없음)"}</del>`;
         
         const dateDiv = document.createElement("div");
         dateDiv.className = "completedTaskDate";
