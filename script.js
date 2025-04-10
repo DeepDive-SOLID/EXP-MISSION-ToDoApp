@@ -64,3 +64,13 @@ document.querySelectorAll(".importanceDropdown").forEach((dropdown) => {
     });
   });
 });
+
+// 다크모드
+document.addEventListener("DOMContentLoaded", () => {
+  const toggleCheckbox = document.getElementById("toggle");
+
+  toggleCheckbox.addEventListener("change", () => {
+    document.body.classList.toggle("dark-mode", toggleCheckbox.checked);
+  });
+});
+
