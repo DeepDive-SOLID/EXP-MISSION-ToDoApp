@@ -27,51 +27,34 @@
 // ];
 
 
-// 할 일 항목들을 넣기 위해 todo-container라는 div를 가져옴
-const container = document.getElementById("todo-container");
-
-// data 배열의 각 요소 todo(각 항목당)에 대한 반복 작업
-data.forEach((todo) => {
-
-    // 각 todo 항목을 todoDiv로 설정
-    const todoDiv = document.createElement("div");
-    todoDiv.className = "todo-item";
-    todoDiv.innerHTML = `
-    <strong>${todo.title}</strong><br>
-    날짜: ${todo.date}
-    `;
-
-    // 마우스 올렸을 때 버튼 생성
-    todoDiv.addEventListener("mouseenter", () => {
-
-        // 이미 버튼이 있다면 또 만들지 않고 return. 버튼 중복 생성을 막음
-        if (todoDiv.querySelector(".move-btn")) return;
-
-        // 새 버튼 생성 (임시로 텍스트 "이동"으로 설정)
+// backLogContainer에 마우스 hover 이벤트 설정
+export const moveCheckEvent = (backLogContainer, items) => {
+    backLogContainer.addEventListener("mouseenter", () => {
+        // 이미 .move-btn이 있는 경우 중복 생성을 막기 위해 함수 종료
+        if (backLogContainer.querySelector(".move-btn")) return;
+        
+        // 우선 "이동" 버튼으로 생성
         const moveBtn = document.createElement("button");
-        moveBtn.textContent = "이동";
-        moveBtn.className = "move-btn";
+        moveBtn.classList.add("move-btn");
+        moveBtn.innerText = "이동";
     
-        // 이동 버튼 클릭 시 moveCheck = true로 바뀜
         moveBtn.addEventListener("click", () => {
-            todo.moveCheck = true;
-            console.log(todo);
+            // 버튼 클릭 시 moveCheck = true로 변경
+            items.moveCheck = true;
+            console.log("moveCheck:", items);
         });
-    
-        // 만들어진 버튼을 todoDiv(각 todo 항목)에 붙여 화면에 보여준다
-        todoDiv.appendChild(moveBtn);
+        
+        // 이동 버튼을 backLogContainer에 추가함
+        backLogContainer.appendChild(moveBtn);
     });
-
-    // 마우스 벗어날 때 버튼 제거
-    todoDiv.addEventListener("mouseleave", () => {
-        // move-btn 클래스를 가진 버튼이 있는지 확인하고, 있다면 DOM에서 완전히 제거
-        const btn = todoDiv.querySelector(".move-btn");
+  
+    // 마우스가 backLogContainer에서 벗어났을 때 이벤트
+    backLogContainer.addEventListener("mouseleave", () => {
+        // .move-btn이 있는지 확인 후 있다면 제거
+        const btn = backLogContainer.querySelector(".move-btn");
         if (btn) btn.remove();
     });
-
-    // 할 일 항목(todoDiv)을 전체 컨테이너에 추가
-    container.appendChild(todoDiv);
-});
+  };
 
 
 // 완료된 태스크 아래로 옮기는 함수
