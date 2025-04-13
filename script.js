@@ -23,9 +23,9 @@ const createTask = () => {
     title: "",
     moveCheck: false,
     complet: false,
-    // 중요도도 데이터에 필요한 것 같음 기본적으로 (하)를 부여 ( 1 = 상, 2 = 중, 3 = 하)
+    // 기본적으로 (하)를 부여 ( 1 = 상, 2 = 중, 3 = 하)
     importance: 3,
-    date: today,
+    date: "",
     list: [],
   };
   todos.unshift(items);
@@ -94,7 +94,11 @@ const DateContainer = (items) => {
   finishDateContent.type = "date";
   finishDateContent.classList.add("finishDateContent");
   // todo list 특성 (오늘기준) 이전 날짜를 허용 안하기 위함
-  finishDateContent.min = items.date;
+  finishDateContent.min = today;
+  finishDateContent.value = items.date;
+
+  // 정렬 시 date값이 있으면 선택 못하고 변경을 눌렀을 시 변경할 수 있게 disabled 속성을 추가
+  items.date == "" ? null : finishDateContent.setAttribute("disabled", "");
   eventListener.changeDate(finishDateContent, items);
 
   finishDateContainer.appendChild(finishDateContent);
@@ -120,6 +124,10 @@ const newElement = (items) => {
   backLogTaskContent.placeholder = "오늘 할 일을 적어주세요";
   backLogTaskContent.type = "text";
   backLogTaskContent.value = items.title;
+
+  // 정렬 시 새롭게 엘리먼트를 만드는데 만약 title 값이 있다면 변경할 수 없게 만듬
+  items.title == "" ? null : backLogTaskContent.setAttribute("disabled", "");
+
   eventListener.createTitle(backLogTaskContent, items);
   eventListener.blurContent(backLogTaskContent);
   backLogContainer.focus();
@@ -153,7 +161,7 @@ const eventListener = {
   changeDate: (dateInputElement, items) => {
     dateInputElement.addEventListener("change", (e) => {
       items.date = e.target.value;
-      dateInputElement.setAttribute("disabled", "");
+      sortTodos();
     });
   },
   // 제목을 입력 시
@@ -211,7 +219,6 @@ const eventListener = {
           : items.importance === 2
           ? ((label.innerText = "중"), selectedCircle.classList.add("medium"))
           : ((label.innerText = "하"), selectedCircle.classList.add("low"));
-
         sortTodos();
       });
     });
@@ -220,8 +227,19 @@ const eventListener = {
 
 // 정렬 코드
 const sortTodos = () => {
-  todos.sort((a, b) => a.importance - b.importance);
+  // 날짜를 기준으로 정렬, 날짜가 같으면 importance 값을 비교하여 정렬
+  todos.sort((a, b) => {
+    const dateA = new Date(a.date);
+    const dateB = new Date(b.date);
 
+    if (dateA.getTime() === dateB.getTime()) {
+      // 날짜가 같으면 importance 값을 비교
+      return a.importance - b.importance;
+    } else {
+      // 날짜를 기준으로 정렬
+      return dateA - dateB;
+    }
+  });
   // 정렬된 todos 배열을 화면에 다시 렌더링하는 코드 추가
   backLogList.innerHTML = "";
   todos.forEach((item) => {
