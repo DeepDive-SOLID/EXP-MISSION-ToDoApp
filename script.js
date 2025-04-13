@@ -104,12 +104,18 @@ const addDateContainer = (items) => {
   return { finishDateContainer, finishDateContent };
 };
 
-// BackLogContainer 를 만드는 함수
-const addBackLogContainer = (items) => {
+// BackLogContainer, BackLogMainContainer 를 만드는 함수
+const addBackLogContainer = () => {
+  // 하나의 backLog 를 담을 컨테이너
+  const backLogContainer = document.createElement("div");
+  backLogContainer.classList.add("taskContainer");
   // backLog의 컨텐츠들을 담을 main 컨테이너
   const backLogMainContainer = document.createElement("div");
   backLogMainContainer.classList.add("maintaskContainer");
 
+  return { backLogContainer, backLogMainContainer };
+};
+const addBackLogTask = (items) => {
   // backLog taskContent를 적을 input
   const backLogTaskContent = document.createElement("input");
   backLogTaskContent.classList.add("taskContent");
@@ -119,8 +125,7 @@ const addBackLogContainer = (items) => {
 
   // 정렬 시 새롭게 엘리먼트를 만드는데 만약 title 값이 있다면 변경할 수 없게 만듬
   items.title == "" ? null : backLogTaskContent.setAttribute("disabled", "");
-
-  return { backLogMainContainer, backLogTaskContent };
+  return { backLogTaskContent };
 };
 
 // 버튼을 만드는 함수
@@ -147,12 +152,9 @@ const newElement = (items) => {
     selectedCircle,
   } = addImportanceContainer(items);
   const { finishDateContainer, finishDateContent } = addDateContainer(items);
-  const { backLogMainContainer, backLogTaskContent } =
-    addBackLogContainer(items);
+  const { backLogContainer, backLogMainContainer } = addBackLogContainer(items);
+  const { backLogTaskContent } = addBackLogTask(items);
   const { editBtn, deleteBtn } = addButtons();
-  // 하나의 backLog 를 담을 컨테이너
-  const backLogContainer = document.createElement("div");
-  backLogContainer.classList.add("taskContainer");
 
   eventListener.changeDate(finishDateContent, items);
   eventListener.createTitle(backLogTaskContent, items);
@@ -305,4 +307,5 @@ const displayTodoList = () => {
 
 // js load 할 때 로컬 스토리지에 있는지 확인
 displayTodoList();
+// 로드 시 addTask 이벤트를 활성화
 eventListener.clickAddTask(addTask);
