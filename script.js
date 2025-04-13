@@ -115,6 +115,7 @@ const addBackLogContainer = () => {
 
   return { backLogContainer, backLogMainContainer };
 };
+// backLog에 들어갈 input Task 생성 함수
 const addBackLogTask = (items) => {
   // backLog taskContent를 적을 input
   const backLogTaskContent = document.createElement("input");
