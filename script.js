@@ -1,11 +1,6 @@
-const checkList = document.querySelector(".currentTaskContainer");
-let todos = [];
-
-// 본문 렌더링 -> 옮기기 버튼 클릭 시 렌더링
-const todoBody = () => {
-  // dump data -> 합칠 때 제거 예정
-  const item = [
-    {
+const checkList = document.querySelector(".currentTaskWrapper");
+let todos = [
+{
       id: 1,
       title: "첫 번째 항목",
       importance: 1,
@@ -41,108 +36,89 @@ const todoBody = () => {
         { id: 202, text: "할 일 B", check: false },
       ],
     },
-  ];
+];
 
-  todos.unshift(...item);
+// 본문 렌더링
+const checkListBody = () => {
+  todos.filter(todo => todo.moveCheck && !todo.complete)
+       .forEach(todo => checkList.prepend(addCheckListBodyElement(todo)));
+};
 
-  todos.forEach((todo) => {
-    if (todo.moveCheck && !todo.complete) {
-      const { itemEl } = addTodoBodyElement(todo);
-      checkList.prepend(itemEl);
-    }
-  });
+// El 생성
+const addEl = (tag, className = "", text = "") => {
+  const el = document.createElement(tag);
+  if (className) el.className = className;
+  if (text) el.innerText = text;
+  return el;
 };
 
 // body 요소 그리기
-const addTodoBodyElement = (item) => {
-  const itemEl = document.createElement("div");
-  itemEl.classList.add("mainTaskEx");
+const addCheckListBodyElement = (todo) => {
+
+  const container = addEl("div", "currentTaskContainer");
+  const mainTask = addEl("div", "mainTaskEx");
 
   // 제목과 date 요소 기본 text와 input 두개 생성
-  const titleEl = document.createElement("span");
-  titleEl.className = "mainTaskName";
-  titleEl.innerText = item.title;
-
-  const titleInput = document.createElement("input");
+  const titleSpan = addEl("span", "mainTaskName", todo.title);
+  const titleInput = addEl("input");
   titleInput.type = "text";
-  titleInput.value = item.title;
+  titleInput.value = todo.title;
   titleInput.style.display = "none";
 
-  const dateEl = document.createElement("span");
-  dateEl.className = "taskDueDate";
-  dateEl.innerText = item.date;
-
-  const dateInput = document.createElement("input");
+  const dateSpan = addEl("span", "taskDueDate", todo.date);
+  const dateInput = addEl("input");
   dateInput.type = "date";
-  dateInput.value = item.date;
+  dateInput.value = todo.date;
   dateInput.style.display = "none";
 
-  const actionsEl = document.createElement("div");
-  actionsEl.classList.add("taskButtons");
+  mainTask.append(titleSpan, titleInput, dateSpan, dateInput);
 
-  const modBtnEl = document.createElement("button");
-  modBtnEl.className = "edit";
-  modBtnEl.innerText = "수정";
+  const buttons = addEl("div", "taskButtons");
+  const modBtnEl = addEl("button", "edit", "✎");
+  const TaskBtnEl = addEl("button", "toggleSubtask", "▼");
+  buttons.append(modBtnEl, TaskBtnEl);
 
-  const viewTaskBtnEl = document.createElement("button");
-  viewTaskBtnEl.classList = "toggleSubtask";
-  viewTaskBtnEl.innerText = "▼";
-
-  itemEl.append(titleEl);
-  itemEl.append(titleInput);
-  itemEl.append(dateEl);
-  itemEl.append(dateInput);
-  itemEl.append(actionsEl);
-  actionsEl.append(modBtnEl);
-  actionsEl.append(viewTaskBtnEl);
-
-  addEventListeners({ itemEl, titleEl, titleInput, dateEl, dateInput, modBtnEl, viewTaskBtnEl }, item);
-  return { itemEl };
+  container.append(mainTask, buttons);
+  addEventListeners({ titleSpan, titleInput, dateSpan, dateInput, modBtnEl, TaskBtnEl, todo });
+  return container;
 };
 
 // 이벤트 함수
-const addEventListeners = ({ itemEl, titleEl, titleInput, dateEl, dateInput, modBtnEl, viewTaskBtnEl }, item) => {
+const addEventListeners = ({ titleSpan, titleInput, dateSpan, dateInput, modBtnEl, TaskBtnEl, todo }) => {
   // title, date 수정 모드 체크
   let isEditing = false;
+
   modBtnEl.addEventListener("click", () => {
     // 수정 버튼 클릭 시
     if (!isEditing) {
       isEditing = true;
-      modBtnEl.innerText = "저장";
-
-      titleEl.style.display = "none";
+      titleSpan.style.display = "none";
       titleInput.style.display = "inline";
-
-      dateEl.style.display = "none";
+      dateSpan.style.display = "none";
       dateInput.style.display = "inline";
 
     // 저장 버튼 클릭 시
     } else {
       isEditing = false;
-      modBtnEl.innerText = "수정";
 
       const newTitle = titleInput.value;
       const newDate = dateInput.value;
+      titleSpan.innerText = newTitle;
+      dateSpan.innerText = newDate;
 
-      titleEl.innerText = newTitle;
-      dateEl.innerText = newDate;
-
-      titleEl.style.display = "inline";
+      titleSpan.style.display = "inline";
       titleInput.style.display = "none";
-
-      dateEl.style.display = "inline";
+      dateSpan.style.display = "inline";
       dateInput.style.display = "none";
 
-      item.title = titleInput.value;
-      item.date = dateInput.value;
-
+      todo.title = newTitle;
+      todo.date = newDate;
       saveToLocalStorage();
     }
   });
 };
 
-todoBody();
-
+checkListBody();
 
 // 하위태스크 접기/펼치기 토글
 document.addEventListener("DOMContentLoaded", () => {
@@ -171,7 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-// 중요도 선택지 
+// 중요도 선택지
 document.querySelectorAll(".importanceDropdown").forEach((dropdown) => {
   const selected = dropdown.querySelector(".selected");
   const options = dropdown.querySelector(".dropdownOptions");
@@ -196,4 +172,3 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.toggle("dark-mode", toggleCheckbox.checked);
   });
 });
-
