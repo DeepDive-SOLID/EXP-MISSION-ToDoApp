@@ -1,13 +1,8 @@
 let todos = [];
 // 전체 backlog 리스트를 담을 div DOM
 const backLogList = document.querySelector(".backlogScrollArea");
+// todo List 생성 버튼
 const addTask = document.querySelector(".addTask");
-
-// addTask 버튼을 누를 시 이벤트 발생
-addTask.addEventListener("click", () => {
-  createTask();
-  addLocalStorage();
-});
 
 // 기본 데이터 셋에 날짜를 현재 날짜로 만들기 위함
 const year = new Date().getFullYear();
@@ -249,6 +244,13 @@ const eventListener = {
       });
     });
   },
+  // addTask 버튼을 누를 시 이벤트 발생
+  clickAddTask: (addTaskBtn) => {
+    addTaskBtn.addEventListener("click", () => {
+      createTask();
+      addLocalStorage();
+    });
+  },
 };
 
 // 정렬 코드
@@ -303,3 +305,4 @@ const displayTodoList = () => {
 
 // js load 할 때 로컬 스토리지에 있는지 확인
 displayTodoList();
+eventListener.clickAddTask(addTask);
