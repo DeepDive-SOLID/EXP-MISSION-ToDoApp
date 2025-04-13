@@ -35,9 +35,9 @@ const createTask = () => {
 };
 
 // backLog 중요도 ( 상 중 하 ) 컨테이너 생성 함수
-const importanceContainer = (items) => {
-  const importanceDropdown = document.createElement("div");
-  importanceDropdown.classList.add("importanceDropdown");
+const addImportanceContainer = (items) => {
+  const importanceContainer = document.createElement("div");
+  importanceContainer.classList.add("importanceDropdown");
 
   const selected = document.createElement("div");
   selected.classList.add("selected");
@@ -77,17 +77,20 @@ const importanceContainer = (items) => {
   selected.appendChild(selectedCircle);
   selected.appendChild(label);
 
-  eventListener.clickImportant(selected, dropdownOptions);
-  eventListener.changeImportant(dropdownOptions, label, selectedCircle, items);
+  importanceContainer.appendChild(selected);
+  importanceContainer.appendChild(dropdownOptions);
 
-  importanceDropdown.appendChild(selected);
-  importanceDropdown.appendChild(dropdownOptions);
-
-  return { importanceDropdown };
+  return {
+    importanceContainer,
+    selected,
+    dropdownOptions,
+    label,
+    selectedCircle,
+  };
 };
 
 // 달력 컨테이너 생성 함수
-const dateContainer = (items) => {
+const addDateContainer = (items) => {
   const finishDateContainer = document.createElement("div");
   finishDateContainer.classList.add("finishDateContainer");
 
@@ -100,21 +103,14 @@ const dateContainer = (items) => {
 
   // 정렬 시 date값이 있으면 선택 못하고 변경을 눌렀을 시 변경할 수 있게 disabled 속성을 추가
   items.date == "" ? null : finishDateContent.setAttribute("disabled", "");
-  eventListener.changeDate(finishDateContent, items);
 
   finishDateContainer.appendChild(finishDateContent);
 
   return { finishDateContainer, finishDateContent };
 };
 
-// 새로운 Task Element 생성 함수
-const newElement = (items) => {
-  const { importanceDropdown } = importanceContainer(items);
-  const { finishDateContainer, finishDateContent } = dateContainer(items);
-  // 하나의 backLog 를 담을 컨테이너
-  const backLogContainer = document.createElement("div");
-  backLogContainer.classList.add("taskContainer");
-
+// BackLogContainer 를 만드는 함수
+const addBackLogContainer = (items) => {
   // backLog의 컨텐츠들을 담을 main 컨테이너
   const backLogMainContainer = document.createElement("div");
   backLogMainContainer.classList.add("maintaskContainer");
@@ -129,24 +125,50 @@ const newElement = (items) => {
   // 정렬 시 새롭게 엘리먼트를 만드는데 만약 title 값이 있다면 변경할 수 없게 만듬
   items.title == "" ? null : backLogTaskContent.setAttribute("disabled", "");
 
-  eventListener.createTitle(backLogTaskContent, items);
-  eventListener.blurContent(backLogTaskContent);
-  backLogContainer.focus();
+  return { backLogMainContainer, backLogTaskContent };
+};
 
+// 버튼을 만드는 함수
+const addButtons = () => {
   // 수정 버튼 생성
   const editBtn = document.createElement("button");
   editBtn.classList.add("edit");
   editBtn.innerText = "✎";
-  eventListener.clickEdit(editBtn, backLogTaskContent, finishDateContent);
-
   // 삭제 버튼 생성
   const deleteBtn = document.createElement("button");
   deleteBtn.classList.add("delete");
   deleteBtn.innerText = "🗑︎";
+
+  return { editBtn, deleteBtn };
+};
+
+// 새로운 Task Element 생성 함수
+const newElement = (items) => {
+  const {
+    importanceContainer,
+    selected,
+    dropdownOptions,
+    label,
+    selectedCircle,
+  } = addImportanceContainer(items);
+  const { finishDateContainer, finishDateContent } = addDateContainer(items);
+  const { backLogMainContainer, backLogTaskContent } =
+    addBackLogContainer(items);
+  const { editBtn, deleteBtn } = addButtons();
+  // 하나의 backLog 를 담을 컨테이너
+  const backLogContainer = document.createElement("div");
+  backLogContainer.classList.add("taskContainer");
+
+  eventListener.changeDate(finishDateContent, items);
+  eventListener.createTitle(backLogTaskContent, items);
+  eventListener.blurContent(backLogTaskContent);
+  eventListener.clickEdit(editBtn, backLogTaskContent, finishDateContent);
   eventListener.clickDelete(deleteBtn, backLogContainer, items);
+  eventListener.clickImportant(selected, dropdownOptions);
+  eventListener.changeImportant(dropdownOptions, label, selectedCircle, items);
 
   backLogMainContainer.appendChild(backLogTaskContent);
-  backLogMainContainer.appendChild(importanceDropdown);
+  backLogMainContainer.appendChild(importanceContainer);
   backLogMainContainer.appendChild(editBtn);
   backLogMainContainer.appendChild(deleteBtn);
   backLogMainContainer.appendChild(finishDateContainer);
