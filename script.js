@@ -6,6 +6,7 @@ const addTask = document.querySelector(".addTask");
 // addTask 버튼을 누를 시 이벤트 발생
 addTask.addEventListener("click", () => {
   createTask();
+  addLocalStorage();
 });
 
 // 기본 데이터 셋에 날짜를 현재 날짜로 만들기 위함
@@ -86,7 +87,7 @@ const importanceContainer = (items) => {
 };
 
 // 달력 컨테이너 생성 함수
-const DateContainer = (items) => {
+const dateContainer = (items) => {
   const finishDateContainer = document.createElement("div");
   finishDateContainer.classList.add("finishDateContainer");
 
@@ -109,7 +110,7 @@ const DateContainer = (items) => {
 // 새로운 Task Element 생성 함수
 const newElement = (items) => {
   const { importanceDropdown } = importanceContainer(items);
-  const { finishDateContainer, finishDateContent } = DateContainer(items);
+  const { finishDateContainer, finishDateContent } = dateContainer(items);
   // 하나의 backLog 를 담을 컨테이너
   const backLogContainer = document.createElement("div");
   backLogContainer.classList.add("taskContainer");
@@ -162,12 +163,14 @@ const eventListener = {
     dateInputElement.addEventListener("change", (e) => {
       items.date = e.target.value;
       sortTodos();
+      addLocalStorage();
     });
   },
   // 제목을 입력 시
   createTitle: (taskInputElement, items) => {
     taskInputElement.addEventListener("input", (e) => {
       items.title = e.target.value;
+      addLocalStorage();
     });
   },
   // input Element에서 blur 가 발생했을 떄
@@ -189,7 +192,7 @@ const eventListener = {
     deleteBtn.addEventListener("click", (e) => {
       backLogList.removeChild(backLogContainer);
       todos = todos.filter((item) => item.id !== items.id);
-      console.log(todos);
+      addLocalStorage();
     });
   },
   // 중요도 클릭 시
@@ -220,6 +223,7 @@ const eventListener = {
           ? ((label.innerText = "중"), selectedCircle.classList.add("medium"))
           : ((label.innerText = "하"), selectedCircle.classList.add("low"));
         sortTodos();
+        addLocalStorage();
       });
     });
   },
@@ -247,3 +251,33 @@ const sortTodos = () => {
     backLogList.appendChild(backLogContainer);
   });
 };
+
+// LocalStorage 생성
+const addLocalStorage = () => {
+  const data = JSON.stringify(todos);
+
+  localStorage.setItem("todoList", data);
+};
+
+// 리로드 했을 시 localStorage에 todoList 가 있다면 불러와서 JSON 형태로 만든 후 todos 에 초기화
+const loadLocalStorage = () => {
+  const data = localStorage.getItem("todoList");
+  console.log(JSON.parse(data));
+  if (data) {
+    todos = JSON.parse(data);
+  }
+};
+
+// 처음 로드 되었을 때 localStorage 를 확인 후 있다면 todoList를 생성
+const displayTodoList = () => {
+  loadLocalStorage();
+
+  for (let i = 0; i < todos.length; i++) {
+    const item = todos[i];
+    const { backLogContainer } = newElement(item);
+    backLogList.appendChild(backLogContainer);
+  }
+};
+
+// js load 할 때 로컬 스토리지에 있는지 확인
+displayTodoList();
