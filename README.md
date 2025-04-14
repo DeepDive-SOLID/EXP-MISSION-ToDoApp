@@ -32,7 +32,7 @@
 ```
 ---
 ### 새로운 element 생성
-모든 그리는 함수 (createElement)를 전부 함수화 시키고 newElement() 함수에서 전부 호출 시킴
+모든 그리는 함수 (createElement)를 전부 함수화 시키고 newElement() 함수에서 전부 호출 시킴 </br>
 이벤트 또한 그리는 함수(add*)에 존재하는 것이 아닌 하나의 함수에서 관리
 
 ```ruby
@@ -70,7 +70,7 @@ const newElement = (items) => {
 ```
 ---
 ### eventListener
-이벤트를 하나하나 생성하는 것이 아닌 객체로 만들어서 사용성을 증가시킴
+이벤트를 하나하나 생성하는 것이 아닌 객체로 만들어서 사용성을 증가시킴 </br>
 사용시 `eventListener.원하는 이벤트()` 로 사용 가능
 ```ruby
 // 이벤트리스너를 모아둔 객체
