@@ -1,47 +1,17 @@
-const checkList = document.querySelector(".currentTaskWrapper");
-let todos = [
-{
-      id: 1,
-      title: "첫 번째 항목",
-      importance: 1,
-      moveCheck: true,
-      complete: false,
-      date: "2025-04-07",
-      list: [
-        { id: 101, text: "할 일 1", check: false },
-        { id: 102, text: "할 일 2", check: true },
-      ],
-    },
-    {
-      id: 2,
-      title: "두 번째 항목",
-      importance: 1,
-      moveCheck: true,
-      complete: true,
-      date: "2025-04-08",
-      list: [
-        { id: 201, text: "할 일 A", check: true },
-        { id: 202, text: "할 일 B", check: false },
-      ],
-    },
-    {
-      id: 3,
-      title: "세 번째 항목",
-      importance: 1,
-      moveCheck: true,
-      complete: false,
-      date: "2025-04-09",
-      list: [
-        { id: 201, text: "할 일 A", check: true },
-        { id: 202, text: "할 일 B", check: false },
-      ],
-    },
-];
+const checkList = document.querySelector(".currentScrollArea");
+todos = JSON.parse(localStorage.getItem("todoList"));
+
+// localStorage에 List 저장
+const saveToLocalStorage = () => {
+  localStorage.setItem("todoList", JSON.stringify(todos));
+};
 
 // 본문 렌더링
 const checkListBody = () => {
-  todos.filter(todo => todo.moveCheck && !todo.complete)
-       .forEach(todo => checkList.prepend(addCheckListBodyElement(todo)));
+  console.log(todos);
+  todos
+      .filter(todo => todo.moveCheck && !todo.complete)
+      .forEach(todo => checkList.appendChild(addCheckListBodyElement(todo)));
 };
 
 // El 생성
@@ -55,6 +25,7 @@ const addEl = (tag, className = "", text = "") => {
 // body 요소 그리기
 const addCheckListBodyElement = (todo) => {
 
+  const wrapper = addEl("div", "currentTaskWrapper");
   const container = addEl("div", "currentTaskContainer");
   const mainTask = addEl("div", "mainTaskEx");
 
@@ -79,8 +50,9 @@ const addCheckListBodyElement = (todo) => {
   buttons.append(modBtnEl, TaskBtnEl);
 
   container.append(mainTask, buttons);
+  wrapper.append(container);
   addEventListeners({ titleSpan, titleInput, dateSpan, dateInput, modBtnEl, TaskBtnEl, todo });
-  return container;
+  return wrapper;
 };
 
 // 이벤트 함수
@@ -88,85 +60,55 @@ const addEventListeners = ({ titleSpan, titleInput, dateSpan, dateInput, modBtnE
   // title, date 수정 모드 체크
   let isEditing = false;
 
-  modBtnEl.addEventListener("click", () => {
-    // 수정 버튼 클릭 시
-    if (!isEditing) {
-      isEditing = true;
-      titleSpan.style.display = "none";
-      titleInput.style.display = "inline";
-      dateSpan.style.display = "none";
-      dateInput.style.display = "inline";
+  // 수정 버튼 클릭 시
+  modBtnEl.addEventListener("click", (e) => {
+    e.stopPropagation();
+    isEditing = true;
+    titleInput.style.display = "inline";
+    dateInput.style.display = "inline";
+    titleSpan.style.display = "none";
+    dateSpan.style.display = "none";
 
-    // 저장 버튼 클릭 시
-    } else {
-      isEditing = false;
+    titleInput.style = "display: inline; padding: 8px; border-radius: 8px; border: 1px solid #ccc; font-size: 14px; width: 90%; margin-bottom: 6px;";
+    dateInput.style = "display: inline; padding: 6px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px;";
 
-      titleSpan.innerText = titleInput.value;
-      dateSpan.innerText = dateInput.value;
+    titleInput.focus();
+  });
 
-      titleSpan.style.display = "inline";
-      titleInput.style.display = "none";
-      dateSpan.style.display = "inline";
-      dateInput.style.display = "none";
-
-      todo.title = titleInput.value;
-      todo.date = dateInput.value;
-      saveToLocalStorage();
+  // 외부 클릭 시 수정 종료
+  document.addEventListener("click", (e) => {
+    if (!isEditing) return;
+    if (e.target !== titleInput && e.target !== dateInput && e.target !== modBtnEl) {
+      finishEdit({ isEditing, titleSpan, titleInput, dateSpan, dateInput, todo });
     }
   });
+
+  // 엔터 시 저장
+  titleInput.addEventListener("keydown", (e) => {
+     if (e.key === "Enter") finishEdit({ isEditing, titleSpan, titleInput, dateSpan, dateInput, todo });
+  });
+
+  dateInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") finishEdit({ isEditing, titleSpan, titleInput, dateSpan, dateInput, todo });
+  })
+};
+
+// 수정 완료시 적용
+const finishEdit = ({ isEditing, titleSpan, titleInput, dateSpan, dateInput, todo }) => {
+  if (!isEditing) return;
+
+  titleSpan.innerText = titleInput.value;
+  dateSpan.innerText = dateInput.value;
+
+  titleInput.style.display = "none";
+  dateInput.style.display = "none";
+  titleSpan.style.display = "inline";
+  dateSpan.style.display = "inline";
+
+  todo.title = titleInput.value;
+  todo.date = dateInput.value;
+  saveToLocalStorage();
+  isEditing = false;
 };
 
 checkListBody();
-
-// 하위태스크 접기/펼치기 토글
-document.addEventListener("DOMContentLoaded", () => {
-  const toggleBtns = document.querySelectorAll(".toggleSubtask");
-
-  toggleBtns.forEach((toggleBtn) => {
-    toggleBtn.addEventListener("click", () => {
-      const wrapper = toggleBtn.closest(".currentTaskWrapper");
-      const subtaskContainer = wrapper.querySelector(".subtaskContainer");
-
-      subtaskContainer.classList.toggle("hidden");
-
-      toggleBtn.textContent = subtaskContainer.classList.contains("hidden")
-        ? "▼"
-        : "▲";
-
-      // 펼쳐질 경우 자동 스크롤
-      if (!subtaskContainer.classList.contains("hidden")) {
-        subtaskContainer.scrollIntoView({
-          behavior: "smooth",
-          block: "nearest"
-        });
-      }
-    });
-  });
-});
-
-
-// 중요도 선택지
-document.querySelectorAll(".importanceDropdown").forEach((dropdown) => {
-  const selected = dropdown.querySelector(".selected");
-  const options = dropdown.querySelector(".dropdownOptions");
-
-  selected.addEventListener("click", () => {
-    options.classList.toggle("hidden");
-  });
-
-  options.querySelectorAll("li").forEach((option) => {
-    option.addEventListener("click", () => {
-      selected.innerHTML = option.innerHTML;
-      options.classList.add("hidden");
-    });
-  });
-});
-
-// 다크모드
-document.addEventListener("DOMContentLoaded", () => {
-  const toggleCheckbox = document.getElementById("toggle");
-
-  toggleCheckbox.addEventListener("change", () => {
-    document.body.classList.toggle("dark-mode", toggleCheckbox.checked);
-  });
-});
