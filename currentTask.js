@@ -1,4 +1,5 @@
 import { initCurrentTaskEvents } from './initEventListeners.js';
+import { addEl } from './element.js';
 
 const checkList = document.querySelector(".currentScrollArea");
 const todos = JSON.parse(localStorage.getItem("todoList"));
@@ -13,14 +14,6 @@ const checkListBody = () => {
   todos
       .filter(todo => todo.moveCheck && !todo.complete)
       .forEach(todo => checkList.appendChild(addCheckListBodyElement(todo)));
-};
-
-// El 생성
-const addEl = (tag, className = "", text = "") => {
-  const el = document.createElement(tag);
-  if (className) el.className = className;
-  if (text) el.innerText = text;
-  return el;
 };
 
 // body 요소 그리기
