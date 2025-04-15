@@ -1,5 +1,6 @@
-import checkListBody from './currentTask.js';
+import { checkListBody, finishEdit } from './currentTask.js';
 import { renderInitialSubTasks, initSubtaskAddButtons } from './subTask.js';
+import { initEventListeners } from './initEventListeners.js';
 
 let todos = [
     {
@@ -55,9 +56,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // subTask.js의 함수
   renderInitialSubTasks();    // 하위 태스크 그리기
-//  initSubtaskAddButtons();    // 하위 태스크 추가 버튼 연결
-
-  // 중요: DOM이 렌더링된 이후에 이벤트 연결
-//  initToggleSubtasks();       // ▼ 버튼 펼치기/접기
+  initSubtaskAddButtons();    // 하위 태스크 추가 버튼 연결
 });
-

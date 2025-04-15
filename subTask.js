@@ -1,7 +1,8 @@
+import { initEventListeners } from './initEventListeners.js';
 const data = JSON.parse(localStorage.getItem("todoList"));
 
 //초기 데이터 렌더링
-function renderInitialSubTasks() {
+const renderInitialSubTasks = () => {
   document.querySelectorAll('.currentTaskWrapper').forEach(wrapper => {
     const container = wrapper.querySelector('.subtaskContainer');
     const backlogId = parseInt(wrapper.dataset.id, 10);
@@ -13,17 +14,17 @@ function renderInitialSubTasks() {
       const btn = container.querySelector('.addSubtaskBtn');
       container.insertBefore(taskElement, btn);
 
-      console.log(`[초기 렌더링] 하위 태스크 ID: ${sub.id} / 내용: ${sub.text} / 체크: ${sub.check}`);
+      console.log(`[초기 렌더링] 하위 태스크 ID: ${sub.id} / 제목: ${backlog.title} / 내용: ${sub.text}`);
     });
   });
 }
 
 //체크박스 처리
-function createCheckbox(subTask, textEl) {
+const createCheckbox = (subTask, textEl) => {
   const checkbox = document.createElement('input');
   checkbox.type = 'checkbox';
   checkbox.className = 'subtaskCheck';
-  checkbox.checked = subTask.check;
+  checkbox.checked = !!subTask.check;
 
   checkbox.addEventListener('change', (e) => {
     e.stopPropagation();
@@ -41,7 +42,7 @@ function createCheckbox(subTask, textEl) {
 }
 
 //삭제 버튼 처리
-function createDeleteButton(backlogId, container, subTask) {
+const createDeleteButton = (backlogId, container, subTask) => {
   const delBtn = document.createElement('button');
   delBtn.className = 'subtaskDelete';
   delBtn.textContent = '🗑︎';
@@ -59,7 +60,7 @@ function createDeleteButton(backlogId, container, subTask) {
 }
 
 //기존 텍스트 요소 생성
-function createTextSpan(subTask) {
+const createTextSpan = (subTask) => {
   const textSpan = document.createElement('span');
   textSpan.className = 'subtaskText';
   textSpan.textContent = subTask.text;
@@ -73,7 +74,7 @@ function createTextSpan(subTask) {
 }
 
 //기존 하위 태스크 요소 생성
-function createSubTaskElement(backlogId, subTask) {
+const createSubTaskElement = (backlogId, subTask) => {
   const div = document.createElement('div');
   div.className = 'subtaskItem';
   div.setAttribute('data-sub-id', subTask.id);
@@ -87,7 +88,7 @@ function createSubTaskElement(backlogId, subTask) {
 }
 
 //입력 가능한 새 태스크 요소 생성
-function createEditableSubTaskElement(backlogId, subTask) {
+const createEditableSubTaskElement = (backlogId, subTask) => {
   const div = document.createElement('div');
   div.className = 'subtaskItem';
   div.setAttribute('data-sub-id', subTask.id);
@@ -110,8 +111,9 @@ function createEditableSubTaskElement(backlogId, subTask) {
 
     const span = createTextSpan(subTask);
     input.replaceWith(span);
-    createCheckbox(subTask, span);
+    const newCheckbox = createCheckbox(subTask, span);
 
+    div.replaceChild(newCheckbox, checkbox);
     console.log(`[추가] 하위 태스크 ID: ${subTask.id} / 내용: ${subTask.text}`);
   };
 
@@ -125,7 +127,7 @@ function createEditableSubTaskElement(backlogId, subTask) {
 }
 
 //버튼 이벤트 연결
-function initSubtaskAddButtons() {
+const initSubtaskAddButtons = () => {
   document.querySelectorAll('.currentTaskWrapper').forEach(wrapper => {
     const btn = wrapper.querySelector('.addSubtaskBtn');
     const container = wrapper.querySelector('.subtaskContainer');
@@ -147,10 +149,24 @@ function initSubtaskAddButtons() {
   });
 }
 
+// 토글 이벤트 연결
+const toggleSubtask = (toggleBtn) => {
+  const container = toggleBtn.closest(".currentTaskWrapper").querySelector(".subtaskContainer");
+
+  if (container.classList.contains("hidden")) {
+    container.classList.remove("hidden");
+    toggleBtn.innerText = "▲";
+  } else {
+    container.classList.add("hidden");
+    toggleBtn.innerText = "▼";
+  }
+};
+
 //실행
 //window.addEventListener("DOMContentLoaded", () => {
 //  renderInitialSubTasks();
 //  initSubtaskAddButtons();
 //});
 
-export { renderInitialSubTasks, initSubtaskAddButtons };
+export { renderInitialSubTasks, initSubtaskAddButtons, toggleSubtask };
+
