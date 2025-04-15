@@ -1,4 +1,4 @@
-import { initEventListeners } from './initEventListeners.js';
+import { initCurrentTaskEvents } from './initEventListeners.js';
 
 const checkList = document.querySelector(".currentScrollArea");
 const todos = JSON.parse(localStorage.getItem("todoList"));
@@ -59,7 +59,7 @@ const addCheckListBodyElement = (todo) => {
   subtaskContainer.appendChild(addBtn);
 
   wrapper.append(container, subtaskContainer);
-  initEventListeners({ titleSpan, titleInput, dateSpan, dateInput, modBtnEl, TaskBtnEl, todo });
+  initCurrentTaskEvents({ titleSpan, titleInput, dateSpan, dateInput, modBtnEl, TaskBtnEl, todo });
 
   return wrapper;
 };

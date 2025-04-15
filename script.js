@@ -1,6 +1,5 @@
 import { checkListBody, finishEdit } from './currentTask.js';
 import { renderInitialSubTasks, initSubtaskAddButtons } from './subTask.js';
-import { initEventListeners } from './initEventListeners.js';
 
 let todos = [
     {

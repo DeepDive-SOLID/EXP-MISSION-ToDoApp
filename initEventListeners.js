@@ -1,8 +1,8 @@
 import { finishEdit } from './currentTask.js';
 import { toggleSubtask } from './subTask.js';
 
-// 하나의 태스크에 대한 이벤트 리스너 초기화
-export const initEventListeners = ({ titleSpan, titleInput, dateSpan, dateInput, modBtnEl, TaskBtnEl, todo }) => {
+// 체크리스트 본문 이벤트
+export const initCurrentTaskEvents  = ({ titleSpan, titleInput, dateSpan, dateInput, modBtnEl, TaskBtnEl, todo }) => {
   let isEditing = false;
 
   // 수정 버튼
