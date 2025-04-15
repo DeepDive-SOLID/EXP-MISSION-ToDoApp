@@ -4,8 +4,8 @@
 //         id: 1,
 //         title: "첫 번째 할 일",
 //         importance: 1,
-//         moveCheck: false,
-//         complete: false,
+//         moveCheck: true,
+//         complete: true,
 //         date: "2025-04-07",
 //         list: [
 //             { id: 101, text: "", check: false },
@@ -16,8 +16,8 @@
 //         id: 2,
 //         title: "두 번째 할 일",
 //         importance: 2,
-//         moveCheck: false,
-//         complete: false,
+//         moveCheck: true,
+//         complete: true,
 //         date: "2025-04-08",
 //         list: [
 //             { id: 201, text: "", check: false },
@@ -47,14 +47,14 @@ export const moveCheckEvent = (backLogContainer, items) => {
         // 이동 버튼을 backLogContainer에 추가함
         backLogContainer.appendChild(moveBtn);
     });
-  
+
     // 마우스가 backLogContainer에서 벗어났을 때 이벤트
     backLogContainer.addEventListener("mouseleave", () => {
         // .move-btn이 있는지 확인 후 있다면 제거
         const btn = backLogContainer.querySelector(".move-btn");
         if (btn) btn.remove();
     });
-  };
+};
 
 
 // 완료된 태스크 아래로 옮기는 함수
@@ -88,4 +88,7 @@ const renderCompletedTasks = () => {
     });
 };
 
-renderCompletedTasks();
+// DOM이 로드되기 전에 JS 실행되는 것 방지
+document.addEventListener("DOMContentLoaded", () => {
+    renderCompletedTasks();
+});
