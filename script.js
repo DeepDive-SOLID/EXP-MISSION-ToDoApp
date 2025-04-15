@@ -1,3 +1,6 @@
+import checkListBody from './currentTask.js';
+import { renderInitialSubTasks, initSubtaskAddButtons } from './subTask.js';
+
 let todos = [
     {
           id: 1,
@@ -43,59 +46,18 @@ const addLocalStorage = () => {
   localStorage.setItem("todoList", data);
 };
 
-// localStorage 생성
-addLocalStorage();
-
-// 하위태스크 접기/펼치기 토글
 document.addEventListener("DOMContentLoaded", () => {
-  const toggleBtns = document.querySelectorAll(".toggleSubtask");
+  // localStorage 생성
+//  addLocalStorage();
 
-  toggleBtns.forEach((toggleBtn) => {
-    toggleBtn.addEventListener("click", () => {
-      const wrapper = toggleBtn.closest(".currentTaskWrapper");
-      const subtaskContainer = wrapper.querySelector(".subtaskContainer");
+  // currentTask.js의 함수
+  checkListBody(); // 메인 태스크 렌더링
 
-      subtaskContainer.classList.toggle("hidden");
+  // subTask.js의 함수
+  renderInitialSubTasks();    // 하위 태스크 그리기
+//  initSubtaskAddButtons();    // 하위 태스크 추가 버튼 연결
 
-      toggleBtn.textContent = subtaskContainer.classList.contains("hidden")
-        ? "▼"
-        : "▲";
-
-      // 펼쳐질 경우 자동 스크롤
-      if (!subtaskContainer.classList.contains("hidden")) {
-        subtaskContainer.scrollIntoView({
-          behavior: "smooth",
-          block: "nearest"
-        });
-      }
-    });
-  });
-});
-
-
-// 중요도 선택지 
-document.querySelectorAll(".importanceDropdown").forEach((dropdown) => {
-  const selected = dropdown.querySelector(".selected");
-  const options = dropdown.querySelector(".dropdownOptions");
-
-  selected.addEventListener("click", () => {
-    options.classList.toggle("hidden");
-  });
-
-  options.querySelectorAll("li").forEach((option) => {
-    option.addEventListener("click", () => {
-      selected.innerHTML = option.innerHTML;
-      options.classList.add("hidden");
-    });
-  });
-});
-
-// 다크모드
-document.addEventListener("DOMContentLoaded", () => {
-  const toggleCheckbox = document.getElementById("toggle");
-
-  toggleCheckbox.addEventListener("change", () => {
-    document.body.classList.toggle("dark-mode", toggleCheckbox.checked);
-  });
+  // 중요: DOM이 렌더링된 이후에 이벤트 연결
+//  initToggleSubtasks();       // ▼ 버튼 펼치기/접기
 });
 

@@ -1,3 +1,5 @@
+const data = JSON.parse(localStorage.getItem("todoList"));
+
 //초기 데이터 렌더링
 function renderInitialSubTasks() {
   document.querySelectorAll('.currentTaskWrapper').forEach(wrapper => {
@@ -146,7 +148,9 @@ function initSubtaskAddButtons() {
 }
 
 //실행
-window.addEventListener("DOMContentLoaded", () => {
-  renderInitialSubTasks();
-  initSubtaskAddButtons();
-});
+//window.addEventListener("DOMContentLoaded", () => {
+//  renderInitialSubTasks();
+//  initSubtaskAddButtons();
+//});
+
+export { renderInitialSubTasks, initSubtaskAddButtons };

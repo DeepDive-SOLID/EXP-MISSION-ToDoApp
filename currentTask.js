@@ -1,5 +1,5 @@
 const checkList = document.querySelector(".currentScrollArea");
-todos = JSON.parse(localStorage.getItem("todoList"));
+const todos = JSON.parse(localStorage.getItem("todoList"));
 
 // localStorage에 List 저장
 const saveToLocalStorage = () => {
@@ -8,7 +8,6 @@ const saveToLocalStorage = () => {
 
 // 본문 렌더링
 const checkListBody = () => {
-  console.log(todos);
   todos
       .filter(todo => todo.moveCheck && !todo.complete)
       .forEach(todo => checkList.appendChild(addCheckListBodyElement(todo)));
@@ -91,6 +90,26 @@ const addEventListeners = ({ titleSpan, titleInput, dateSpan, dateInput, modBtnE
   dateInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter") finishEdit({ isEditing, titleSpan, titleInput, dateSpan, dateInput, todo });
   })
+
+  // 하위태스크 접기/펼치기
+  TaskBtnEl.addEventListener("click", (e) => {
+
+    const wrapper = e.target.closest(".currentTaskWrapper");
+    const subtaskContainer = wrapper.querySelector(".subtaskContainer");
+    subtaskContainer.classList.toggle("hidden");
+
+    e.target.textContent = subtaskContainer.classList.contains("hidden")
+      ? "▼"
+      : "▲";
+
+    if (!subtaskContainer.classList.contains("hidden")) {
+      subtaskContainer.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+      });
+    }
+  });
+
 };
 
 // 수정 완료시 적용
@@ -111,4 +130,28 @@ const finishEdit = ({ isEditing, titleSpan, titleInput, dateSpan, dateInput, tod
   isEditing = false;
 };
 
-checkListBody();
+// 하위태스크 접기/펼치기 토글
+//const initToggleSubtasks = () => {
+//  document.body.addEventListener("click", (e) => {
+//    if (e.target.classList.contains("toggleSubtask")) {
+//      const toggleBtn = e.target;
+//      const wrapper = toggleBtn.closest(".currentTaskWrapper");
+//      const subtaskContainer = wrapper.querySelector(".subtaskContainer");
+//
+//      subtaskContainer.classList.toggle("hidden");
+//
+//      toggleBtn.textContent = subtaskContainer.classList.contains("hidden")
+//        ? "▼"
+//        : "▲";
+//
+//      if (!subtaskContainer.classList.contains("hidden")) {
+//        subtaskContainer.scrollIntoView({
+//          behavior: "smooth",
+//          block: "nearest"
+//        });
+//      }
+//    }
+//  });
+//};
+
+export default checkListBody;
