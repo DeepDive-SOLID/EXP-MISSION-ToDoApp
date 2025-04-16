@@ -1,4 +1,4 @@
-import { checkListBody, finishEdit } from './currentTask.js';
+import { checkListBody } from './currentTask.js';
 import { renderInitialSubTasks, initSubtaskAddButtons } from './subTask.js';
 
 let todos = [
@@ -46,6 +46,11 @@ const addLocalStorage = () => {
   localStorage.setItem("todoList", data);
 };
 
+// localStorage에 List 저장
+const saveToLocalStorage = () => {
+  localStorage.setItem("todoList", JSON.stringify(todos));
+};
+
 document.addEventListener("DOMContentLoaded", () => {
   // localStorage 생성
 //  addLocalStorage();
@@ -57,3 +62,5 @@ document.addEventListener("DOMContentLoaded", () => {
   renderInitialSubTasks();    // 하위 태스크 그리기
   initSubtaskAddButtons();    // 하위 태스크 추가 버튼 연결
 });
+
+export { todos, saveToLocalStorage };

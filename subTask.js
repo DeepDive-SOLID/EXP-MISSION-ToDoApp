@@ -1,6 +1,6 @@
 import { initSubTaskEvents } from './initEventListeners.js';
 import { addEl } from './element.js';
-import { todos } from './currentTask.js';
+import { todos } from './script.js';
 
 // 렌더링
 const renderInitialSubTasks = () => {

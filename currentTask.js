@@ -1,13 +1,8 @@
 import { initCurrentTaskEvents } from './initEventListeners.js';
 import { addEl } from './element.js';
+import { todos, saveToLocalStorage } from './script.js';
 
 const checkList = document.querySelector(".currentScrollArea");
-const todos = JSON.parse(localStorage.getItem("todoList"));
-
-// localStorage에 List 저장
-const saveToLocalStorage = () => {
-  localStorage.setItem("todoList", JSON.stringify(todos));
-};
 
 // 렌더링
 const checkListBody = () => {

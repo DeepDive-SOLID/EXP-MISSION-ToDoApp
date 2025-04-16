@@ -1,7 +1,7 @@
 import { finishEdit } from './currentTask.js';
 import { toggleSubtask } from './subTask.js';
 import { addEl } from './element.js';
-import { saveToLocalStorage } from './currentTask.js';
+import { saveToLocalStorage } from './script.js';
 
 // 체크리스트 본문 이벤트
 const initCurrentTaskEvents  = ({ titleSpan, titleInput, dateSpan, dateInput, modBtnEl, TaskBtnEl, todo }) => {
