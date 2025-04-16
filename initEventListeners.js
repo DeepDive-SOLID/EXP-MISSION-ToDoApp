@@ -1,8 +1,10 @@
 import { finishEdit } from './currentTask.js';
 import { toggleSubtask } from './subTask.js';
+import { addEl } from './element.js';
+import { saveToLocalStorage } from './currentTask.js';
 
 // 체크리스트 본문 이벤트
-export const initCurrentTaskEvents  = ({ titleSpan, titleInput, dateSpan, dateInput, modBtnEl, TaskBtnEl, todo }) => {
+const initCurrentTaskEvents  = ({ titleSpan, titleInput, dateSpan, dateInput, modBtnEl, TaskBtnEl, todo }) => {
   let isEditing = false;
 
   // 수정 버튼
@@ -50,3 +52,70 @@ export const initCurrentTaskEvents  = ({ titleSpan, titleInput, dateSpan, dateIn
     }
   });
 };
+
+
+// 하위 태스크 이벤트
+const initSubTaskEvents = (el, backlogId, subTask, textEl = null) => {
+  const checkbox = el.querySelector('.subtaskCheck');
+  const delBtn = el.querySelector('.subtaskDelete');
+  const input = el.querySelector('input[type="text"]');
+
+  // 체크 박스
+  if (checkbox) {
+    checkbox.addEventListener('change', () => {
+      subTask.check = checkbox.checked;
+      const text = textEl || el.querySelector('.subtaskText');
+      if (text) {
+        text.style.textDecoration = checkbox.checked ? 'line-through' : 'none';
+        text.style.opacity = checkbox.checked ? '0.6' : '1';
+      }
+      saveToLocalStorage();
+    });
+  }
+
+  // 삭제 버튼
+  if (delBtn) {
+    delBtn.addEventListener('click', () => {
+      const data = JSON.parse(localStorage.getItem('todoList')) || [];
+      const backlog = data.find(item => item.id === backlogId);
+      if (!backlog) return;
+      backlog.list = backlog.list.filter(item => item.id !== subTask.id);
+      localStorage.setItem('todoList', JSON.stringify(data));
+      el.remove();
+    });
+  }
+
+  // 입력 완료 후 변환
+  if (input) {
+    let isConfirmed = false;
+    const confirm = () => {
+      if (isConfirmed) return;
+      isConfirmed = true;
+
+      const value = input.value.trim();
+       if (!value) {
+         el.remove();
+         return;
+       }
+      subTask.text = value;
+      saveToLocalStorage();
+
+      const span = document.createElement('span');
+      span.className = 'subtaskText';
+      span.textContent = subTask.text;
+
+      if (subTask.check) {
+        span.style.textDecoration = 'line-through';
+        span.style.opacity = '0.6';
+      }
+
+      input.replaceWith(span);
+      initSubTaskEvents(el, backlogId, subTask, span);
+    };
+
+    input.addEventListener('keydown', e => e.key === 'Enter' && confirm());
+    input.addEventListener('blur', confirm);
+  }
+};
+
+export { initCurrentTaskEvents, initSubTaskEvents};

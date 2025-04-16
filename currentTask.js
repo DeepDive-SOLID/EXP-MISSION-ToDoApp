@@ -9,7 +9,7 @@ const saveToLocalStorage = () => {
   localStorage.setItem("todoList", JSON.stringify(todos));
 };
 
-// 본문 렌더링
+// 렌더링
 const checkListBody = () => {
   todos
       .filter(todo => todo.moveCheck && !todo.complete)
@@ -27,16 +27,10 @@ const addCheckListBodyElement = (todo) => {
 
   // 제목과 date 요소 기본 text와 input 두개 생성
   const titleSpan = addEl("span", "mainTaskName", todo.title);
-  const titleInput = addEl("input");
-  titleInput.type = "text";
-  titleInput.value = todo.title;
-  titleInput.style.display = "none";
+  const titleInput = addEl("input", "", "", todo.title, "text", "", "none");
 
   const dateSpan = addEl("span", "taskDueDate", todo.date);
-  const dateInput = addEl("input");
-  dateInput.type = "date";
-  dateInput.value = todo.date;
-  dateInput.style.display = "none";
+  const dateInput = addEl("input", "", "", todo.date, "date", "", "none");
 
   mainTask.append(titleSpan, titleInput, dateSpan, dateInput);
 
@@ -74,4 +68,4 @@ const finishEdit = ({ isEditing, titleSpan, titleInput, dateSpan, dateInput, tod
   saveToLocalStorage();
 };
 
-export { checkListBody, finishEdit };
+export { checkListBody, finishEdit, saveToLocalStorage };
