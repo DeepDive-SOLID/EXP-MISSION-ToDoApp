@@ -1,15 +1,13 @@
 import { initSubTaskEvents } from './initEventListeners.js';
 import { addEl } from './element.js';
-import { saveToLocalStorage } from './currentTask.js';
-
-const data = JSON.parse(localStorage.getItem("todoList"));
+import { todos } from './currentTask.js';
 
 // 렌더링
 const renderInitialSubTasks = () => {
   document.querySelectorAll('.currentTaskWrapper').forEach(wrapper => {
     const container = wrapper.querySelector('.subtaskContainer');
     const backlogId = parseInt(wrapper.dataset.id, 10);
-    const backlog = data.find(b => b.id === backlogId);
+    const backlog = todos.find(b => b.id === backlogId);
     if (!backlog) return;
 
     backlog.list.forEach(sub => {
@@ -67,13 +65,12 @@ const initSubtaskAddButtons = () => {
     const backlogId = parseInt(wrapper.dataset.id, 10);
 
     btn.addEventListener('click', () => {
-      const backlog = data.find(b => b.id === backlogId);
+      const backlog = todos.find(b => b.id === backlogId);
       if (!backlog) return;
 
       const newId = Date.now();
       const newTask = { id: newId, text: '', check: false };
       backlog.list.push(newTask);
-      saveToLocalStorage();
 
       const div = createEditableSubTaskElement(backlogId, newTask);
       container.insertBefore(div, btn);

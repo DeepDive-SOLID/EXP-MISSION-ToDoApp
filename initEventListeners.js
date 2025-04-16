@@ -82,6 +82,7 @@ const initSubTaskEvents = (el, backlogId, subTask, textEl = null) => {
       backlog.list = backlog.list.filter(item => item.id !== subTask.id);
       localStorage.setItem('todoList', JSON.stringify(data));
       el.remove();
+      saveToLocalStorage();
     });
   }
 
@@ -98,7 +99,6 @@ const initSubTaskEvents = (el, backlogId, subTask, textEl = null) => {
          return;
        }
       subTask.text = value;
-      saveToLocalStorage();
 
       const span = document.createElement('span');
       span.className = 'subtaskText';
@@ -111,6 +111,7 @@ const initSubTaskEvents = (el, backlogId, subTask, textEl = null) => {
 
       input.replaceWith(span);
       initSubTaskEvents(el, backlogId, subTask, span);
+      saveToLocalStorage();
     };
 
     input.addEventListener('keydown', e => e.key === 'Enter' && confirm());
@@ -118,4 +119,4 @@ const initSubTaskEvents = (el, backlogId, subTask, textEl = null) => {
   }
 };
 
-export { initCurrentTaskEvents, initSubTaskEvents};
+export { initCurrentTaskEvents, initSubTaskEvents };

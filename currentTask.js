@@ -68,4 +68,4 @@ const finishEdit = ({ isEditing, titleSpan, titleInput, dateSpan, dateInput, tod
   saveToLocalStorage();
 };
 
-export { checkListBody, finishEdit, saveToLocalStorage };
+export { checkListBody, finishEdit, saveToLocalStorage, todos };
