@@ -1,10 +1,10 @@
 import { finishEdit } from './currentTask.js';
-import { toggleSubtask } from './subTask.js';
+import { toggleSubtask, initSubtaskAddButtons } from './subTask.js';
 import { addEl } from './element.js';
-import { saveToLocalStorage } from './script.js';
+import { todos, saveToLocalStorage } from './script.js';
 
 // 체크리스트 본문 이벤트
-const initCurrentTaskEvents  = ({ titleSpan, titleInput, dateSpan, dateInput, modBtnEl, TaskBtnEl, todo }) => {
+const initCurrentTaskEvents = ({ titleSpan, titleInput, dateSpan, dateInput, modBtnEl, taskBtnEl, addBtnEl, todo, wrapper }) => {
   let isEditing = false;
 
   // 수정 버튼
@@ -24,9 +24,15 @@ const initCurrentTaskEvents  = ({ titleSpan, titleInput, dateSpan, dateInput, mo
   });
 
   // toggle 버튼
-  TaskBtnEl.addEventListener("click", (e) => {
+  taskBtnEl.addEventListener("click", (e) => {
     e.stopPropagation();
-    toggleSubtask(TaskBtnEl);
+    toggleSubtask(taskBtnEl);
+  });
+
+  // + 버튼
+  addBtnEl.addEventListener("click", (e) => {
+    const container = wrapper.querySelector('.subtaskContainer');
+    initSubtaskAddButtons(todo.id, container, addBtnEl);
   });
 
   // 외부 클릭 시 저장
@@ -55,35 +61,27 @@ const initCurrentTaskEvents  = ({ titleSpan, titleInput, dateSpan, dateInput, mo
 
 
 // 하위 태스크 이벤트
-const initSubTaskEvents = (el, backlogId, subTask, textEl = null) => {
-  const checkbox = el.querySelector('.subtaskCheck');
-  const delBtn = el.querySelector('.subtaskDelete');
-  const input = el.querySelector('input[type="text"]');
+const initSubTaskEvents = ({ div, backlogId, subTask, textEl, checkbox, delBtn, input}) => {
 
   // 체크 박스
-  if (checkbox) {
-    checkbox.addEventListener('change', () => {
-      subTask.check = checkbox.checked;
-      const text = textEl || el.querySelector('.subtaskText');
-      if (text) {
-        text.style.textDecoration = checkbox.checked ? 'line-through' : 'none';
-        text.style.opacity = checkbox.checked ? '0.6' : '1';
-      }
-      saveToLocalStorage();
-    });
-  }
+  checkbox.addEventListener('change', () => {
+    subTask.check = checkbox.checked;
+    const text = textEl || div.querySelector('.subtaskText');
+    if (text) {
+      text.style.textDecoration = checkbox.checked ? 'line-through' : 'none';
+      text.style.opacity = checkbox.checked ? '0.6' : '1';
+    }
+    saveToLocalStorage();
+  });
 
   // 삭제 버튼
-  if (delBtn) {
-    delBtn.addEventListener('click', () => {
-      const data = JSON.parse(localStorage.getItem('todoList')) || [];
-      const backlog = data.find(item => item.id === backlogId);
-      if (!backlog) return;
-      backlog.list = backlog.list.filter(item => item.id !== subTask.id);
-      localStorage.setItem('todoList', JSON.stringify(data));
-      el.remove();
-    });
-  }
+  delBtn.addEventListener('click', () => {
+    const backlog = todos.find(item => item.id === backlogId);
+    if (!backlog) return;
+    backlog.list = backlog.list.filter(item => item.id !== subTask.id);
+    saveToLocalStorage();
+    div.remove();
+  });
 
   // 입력 완료 후 변환
   if (input) {
@@ -93,8 +91,14 @@ const initSubTaskEvents = (el, backlogId, subTask, textEl = null) => {
       isConfirmed = true;
 
       const value = input.value.trim();
+      console.log(value);
        if (!value) {
-         el.remove();
+         const backlog = todos.find(item => item.id === backlogId);
+         if (backlog) {
+           backlog.list = backlog.list.filter(item => item.id !== subTask.id);
+           saveToLocalStorage();
+         }
+         div.remove();
          return;
        }
       subTask.text = value;
@@ -109,7 +113,7 @@ const initSubTaskEvents = (el, backlogId, subTask, textEl = null) => {
       }
 
       input.replaceWith(span);
-      initSubTaskEvents(el, backlogId, subTask, span);
+      initSubTaskEvents({ div, backlogId, subTask, textEl: span, checkbox, delBtn, input: null });
       saveToLocalStorage();
     };
 

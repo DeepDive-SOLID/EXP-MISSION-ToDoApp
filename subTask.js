@@ -35,7 +35,7 @@ const createSubTaskElement = (backlogId, subTask) => {
   const delBtn = addEl('button', 'subtaskDelete', '🗑︎');
 
   div.append(checkbox, textSpan, delBtn);
-  initSubTaskEvents(div, backlogId, subTask, textSpan);
+  initSubTaskEvents({div, backlogId, subTask, textSpan, checkbox, delBtn, input : null});
   return div;
 };
 
@@ -53,31 +53,24 @@ const createEditableSubTaskElement = (backlogId, subTask) => {
   const delBtn = addEl('button', 'subtaskDelete', '🗑︎');
 
   div.append(checkbox, input, delBtn);
-  initSubTaskEvents(div, backlogId, subTask);
+  initSubTaskEvents({ div, backlogId, subTask, textSpan : null, checkbox, delBtn, input});
   return div;
 };
 
 // 버튼 이벤트 연결
-const initSubtaskAddButtons = () => {
-  document.querySelectorAll('.currentTaskWrapper').forEach(wrapper => {
-    const btn = wrapper.querySelector('.addSubtaskBtn');
-    const container = wrapper.querySelector('.subtaskContainer');
-    const backlogId = wrapper.dataset.id
+const initSubtaskAddButtons = (backlogId, container, addBtn) => {
+  const backlog = todos.find(b => b.id === backlogId);
+  if (!backlog) return;
 
-    btn.addEventListener('click', () => {
-      const backlog = todos.find(b => b.id === backlogId);
-      if (!backlog) return;
+  const newId = Date.now();
+  const newTask = { id: newId, text: '', check: false };
+  backlog.list.push(newTask);
 
-      const newId = Date.now();
-      const newTask = { id: newId, text: '', check: false };
-      backlog.list.push(newTask);
+  const div = createEditableSubTaskElement(backlogId, newTask);
+  container.insertBefore(div, addBtn);
 
-      const div = createEditableSubTaskElement(backlogId, newTask);
-      container.insertBefore(div, btn);
-      const input = div.querySelector('input[type="text"]');
-      if (input) input.focus();
-    });
-  });
+  const input = div.querySelector('input[type="text"]');
+  if (input) input.focus();
 };
 
 // 토글 버튼 연결

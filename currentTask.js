@@ -31,17 +31,17 @@ const addCheckListBodyElement = (todo) => {
 
   const buttons = addEl("div", "taskButtons");
   const modBtnEl = addEl("button", "edit", "✎");
-  const TaskBtnEl = addEl("button", "toggleSubtask", "▼");
+  const taskBtnEl = addEl("button", "toggleSubtask", "▼");
 
-  buttons.append(modBtnEl, TaskBtnEl);
+  buttons.append(modBtnEl, taskBtnEl);
   container.append(mainTask, buttons);
 
   const subtaskContainer = addEl("div", "subtaskContainer hidden");
-  const addBtn = addEl("button", "addSubtaskBtn", "+");
-  subtaskContainer.appendChild(addBtn);
+  const addBtnEl = addEl("button", "addSubtaskBtn", "+");
+  subtaskContainer.appendChild(addBtnEl);
 
   wrapper.append(container, subtaskContainer);
-  initCurrentTaskEvents({ titleSpan, titleInput, dateSpan, dateInput, modBtnEl, TaskBtnEl, todo });
+  initCurrentTaskEvents({ titleSpan, titleInput, dateSpan, dateInput, modBtnEl, taskBtnEl, addBtnEl, todo, wrapper });
 
   return wrapper;
 };
@@ -63,4 +63,4 @@ const finishEdit = ({ isEditing, titleSpan, titleInput, dateSpan, dateInput, tod
   saveToLocalStorage();
 };
 
-export { checkListBody, finishEdit, saveToLocalStorage, todos };
+export { checkListBody, finishEdit, todos };
