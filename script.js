@@ -1,6 +1,9 @@
+import { checkListBody } from './currentTask.js';
+import { renderInitialSubTasks, initSubtaskAddButtons } from './subTask.js';
+
 let todos = [
     {
-          id: 1,
+          id: "1",
           title: "첫 번째 항목",
           importance: 1,
           moveCheck: true,
@@ -12,7 +15,7 @@ let todos = [
           ],
         },
         {
-          id: 2,
+          id: "2",
           title: "두 번째 항목",
           importance: 1,
           moveCheck: true,
@@ -24,7 +27,7 @@ let todos = [
           ],
         },
         {
-          id: 3,
+          id: "3",
           title: "세 번째 항목",
           importance: 1,
           moveCheck: true,
@@ -43,59 +46,21 @@ const addLocalStorage = () => {
   localStorage.setItem("todoList", data);
 };
 
-// localStorage 생성
-addLocalStorage();
+// localStorage에 List 저장
+const saveToLocalStorage = () => {
+  localStorage.setItem("todoList", JSON.stringify(todos));
+};
 
-// 하위태스크 접기/펼치기 토글
 document.addEventListener("DOMContentLoaded", () => {
-  const toggleBtns = document.querySelectorAll(".toggleSubtask");
+  // localStorage 생성
+//  addLocalStorage();
 
-  toggleBtns.forEach((toggleBtn) => {
-    toggleBtn.addEventListener("click", () => {
-      const wrapper = toggleBtn.closest(".currentTaskWrapper");
-      const subtaskContainer = wrapper.querySelector(".subtaskContainer");
+  // currentTask.js의 함수
+  checkListBody(); // 메인 태스크 렌더링
 
-      subtaskContainer.classList.toggle("hidden");
-
-      toggleBtn.textContent = subtaskContainer.classList.contains("hidden")
-        ? "▼"
-        : "▲";
-
-      // 펼쳐질 경우 자동 스크롤
-      if (!subtaskContainer.classList.contains("hidden")) {
-        subtaskContainer.scrollIntoView({
-          behavior: "smooth",
-          block: "nearest"
-        });
-      }
-    });
-  });
+  // subTask.js의 함수
+  renderInitialSubTasks();    // 하위 태스크 그리기
+  initSubtaskAddButtons();    // 하위 태스크 추가 버튼 연결
 });
 
-
-// 중요도 선택지 
-document.querySelectorAll(".importanceDropdown").forEach((dropdown) => {
-  const selected = dropdown.querySelector(".selected");
-  const options = dropdown.querySelector(".dropdownOptions");
-
-  selected.addEventListener("click", () => {
-    options.classList.toggle("hidden");
-  });
-
-  options.querySelectorAll("li").forEach((option) => {
-    option.addEventListener("click", () => {
-      selected.innerHTML = option.innerHTML;
-      options.classList.add("hidden");
-    });
-  });
-});
-
-// 다크모드
-document.addEventListener("DOMContentLoaded", () => {
-  const toggleCheckbox = document.getElementById("toggle");
-
-  toggleCheckbox.addEventListener("change", () => {
-    document.body.classList.toggle("dark-mode", toggleCheckbox.checked);
-  });
-});
-
+export { todos, saveToLocalStorage };

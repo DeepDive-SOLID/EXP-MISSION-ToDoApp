@@ -1,96 +1,49 @@
+import { initCurrentTaskEvents } from './initEventListeners.js';
+import { addEl } from './element.js';
+import { todos, saveToLocalStorage } from './script.js';
+
 const checkList = document.querySelector(".currentScrollArea");
-todos = JSON.parse(localStorage.getItem("todoList"));
 
-// localStorage에 List 저장
-const saveToLocalStorage = () => {
-  localStorage.setItem("todoList", JSON.stringify(todos));
-};
-
-// 본문 렌더링
+// 렌더링
 const checkListBody = () => {
-  console.log(todos);
   todos
       .filter(todo => todo.moveCheck && !todo.complete)
       .forEach(todo => checkList.appendChild(addCheckListBodyElement(todo)));
-};
-
-// El 생성
-const addEl = (tag, className = "", text = "") => {
-  const el = document.createElement(tag);
-  if (className) el.className = className;
-  if (text) el.innerText = text;
-  return el;
 };
 
 // body 요소 그리기
 const addCheckListBodyElement = (todo) => {
 
   const wrapper = addEl("div", "currentTaskWrapper");
+  wrapper.dataset.id = todo.id;
+
   const container = addEl("div", "currentTaskContainer");
   const mainTask = addEl("div", "mainTaskEx");
 
   // 제목과 date 요소 기본 text와 input 두개 생성
   const titleSpan = addEl("span", "mainTaskName", todo.title);
-  const titleInput = addEl("input");
-  titleInput.type = "text";
-  titleInput.value = todo.title;
-  titleInput.style.display = "none";
+  const titleInput = addEl("input", "", "", todo.title, "text", "", "none");
 
   const dateSpan = addEl("span", "taskDueDate", todo.date);
-  const dateInput = addEl("input");
-  dateInput.type = "date";
-  dateInput.value = todo.date;
-  dateInput.style.display = "none";
+  const dateInput = addEl("input", "", "", todo.date, "date", "", "none");
 
   mainTask.append(titleSpan, titleInput, dateSpan, dateInput);
 
   const buttons = addEl("div", "taskButtons");
   const modBtnEl = addEl("button", "edit", "✎");
   const TaskBtnEl = addEl("button", "toggleSubtask", "▼");
+
   buttons.append(modBtnEl, TaskBtnEl);
-
   container.append(mainTask, buttons);
-  wrapper.append(container);
-  addEventListeners({ titleSpan, titleInput, dateSpan, dateInput, modBtnEl, TaskBtnEl, todo });
+
+  const subtaskContainer = addEl("div", "subtaskContainer hidden");
+  const addBtn = addEl("button", "addSubtaskBtn", "+");
+  subtaskContainer.appendChild(addBtn);
+
+  wrapper.append(container, subtaskContainer);
+  initCurrentTaskEvents({ titleSpan, titleInput, dateSpan, dateInput, modBtnEl, TaskBtnEl, todo });
+
   return wrapper;
-};
-
-// 이벤트 함수
-const addEventListeners = ({ titleSpan, titleInput, dateSpan, dateInput, modBtnEl, TaskBtnEl, todo }) => {
-  // title, date 수정 모드 체크
-  let isEditing = false;
-
-  // 수정 버튼 클릭 시
-  modBtnEl.addEventListener("click", (e) => {
-    e.stopPropagation();
-    isEditing = true;
-    titleInput.style.display = "inline";
-    dateInput.style.display = "inline";
-    titleSpan.style.display = "none";
-    dateSpan.style.display = "none";
-
-    titleInput.style = "display: inline; padding: 8px; border-radius: 8px; border: 1px solid #ccc; font-size: 14px; width: 90%; margin-bottom: 6px;";
-    dateInput.style = "display: inline; padding: 6px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px;";
-
-    titleInput.focus();
-  });
-
-  // 외부 클릭 시 수정 종료
-  document.addEventListener("click", (e) => {
-    if (!isEditing) return;
-    if (e.target !== titleInput && e.target !== dateInput && e.target !== modBtnEl) {
-      finishEdit({ isEditing, titleSpan, titleInput, dateSpan, dateInput, todo });
-    }
-  });
-
-  // 엔터 시 저장
-  titleInput.addEventListener("keydown", (e) => {
-     if (e.key === "Enter") finishEdit({ isEditing, titleSpan, titleInput, dateSpan, dateInput, todo });
-  });
-
-  dateInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") finishEdit({ isEditing, titleSpan, titleInput, dateSpan, dateInput, todo });
-  })
 };
 
 // 수정 완료시 적용
@@ -108,7 +61,6 @@ const finishEdit = ({ isEditing, titleSpan, titleInput, dateSpan, dateInput, tod
   todo.title = titleInput.value;
   todo.date = dateInput.value;
   saveToLocalStorage();
-  isEditing = false;
 };
 
-checkListBody();
+export { checkListBody, finishEdit, saveToLocalStorage, todos };
