@@ -82,7 +82,6 @@ const initSubTaskEvents = (el, backlogId, subTask, textEl = null) => {
       backlog.list = backlog.list.filter(item => item.id !== subTask.id);
       localStorage.setItem('todoList', JSON.stringify(data));
       el.remove();
-      saveToLocalStorage();
     });
   }
 
