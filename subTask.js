@@ -6,7 +6,7 @@ import { todos } from './currentTask.js';
 const renderInitialSubTasks = () => {
   document.querySelectorAll('.currentTaskWrapper').forEach(wrapper => {
     const container = wrapper.querySelector('.subtaskContainer');
-    const backlogId = parseInt(wrapper.dataset.id, 10);
+    const backlogId = wrapper.dataset.id
     const backlog = todos.find(b => b.id === backlogId);
     if (!backlog) return;
 
@@ -62,7 +62,7 @@ const initSubtaskAddButtons = () => {
   document.querySelectorAll('.currentTaskWrapper').forEach(wrapper => {
     const btn = wrapper.querySelector('.addSubtaskBtn');
     const container = wrapper.querySelector('.subtaskContainer');
-    const backlogId = parseInt(wrapper.dataset.id, 10);
+    const backlogId = wrapper.dataset.id
 
     btn.addEventListener('click', () => {
       const backlog = todos.find(b => b.id === backlogId);

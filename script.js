@@ -3,7 +3,7 @@ import { renderInitialSubTasks, initSubtaskAddButtons } from './subTask.js';
 
 let todos = [
     {
-          id: 1,
+          id: "1",
           title: "첫 번째 항목",
           importance: 1,
           moveCheck: true,
@@ -15,7 +15,7 @@ let todos = [
           ],
         },
         {
-          id: 2,
+          id: "2",
           title: "두 번째 항목",
           importance: 1,
           moveCheck: true,
@@ -27,7 +27,7 @@ let todos = [
           ],
         },
         {
-          id: 3,
+          id: "3",
           title: "세 번째 항목",
           importance: 1,
           moveCheck: true,
