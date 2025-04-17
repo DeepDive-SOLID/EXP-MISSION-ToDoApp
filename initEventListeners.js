@@ -71,6 +71,11 @@ const initSubTaskEvents = ({ div, backlogId, subTask, textEl, checkbox, delBtn, 
       text.style.textDecoration = checkbox.checked ? 'line-through' : 'none';
       text.style.opacity = checkbox.checked ? '0.6' : '1';
     }
+    const backlog = todos.find(b => b.id === backlogId);
+    if (!backlog) return;
+
+    const allChecked = backlog.list.every(sub => sub.check === true);
+    backlog.complete = allChecked;
     saveToLocalStorage();
   });
 
