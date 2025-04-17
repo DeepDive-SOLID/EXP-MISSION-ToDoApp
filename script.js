@@ -1,44 +1,50 @@
 import { checkListBody } from './currentTask.js';
 import { renderInitialSubTasks } from './subTask.js';
 
-let todos = [
+let todos;
+const stored = localStorage.getItem('todoList');
+if (stored) {
+  todos = JSON.parse(stored);
+} else {
+  todos = [
     {
-          id: "1",
-          title: "첫 번째 항목",
-          importance: 1,
-          moveCheck: true,
-          complete: false,
-          date: "2025-04-07",
-          list: [
-            { id: 101, text: "할 일 1", check: false },
-            { id: 102, text: "할 일 2", check: true },
-          ],
-        },
-        {
-          id: "2",
-          title: "두 번째 항목",
-          importance: 1,
-          moveCheck: true,
-          complete: true,
-          date: "2025-04-08",
-          list: [
-            { id: 201, text: "할 일 A", check: true },
-            { id: 202, text: "할 일 B", check: false },
-          ],
-        },
-        {
-          id: "3",
-          title: "세 번째 항목",
-          importance: 1,
-          moveCheck: true,
-          complete: false,
-          date: "2025-04-09",
-          list: [
-            { id: 201, text: "할 일 A", check: true },
-            { id: 202, text: "할 일 B", check: false },
-          ],
-        },
-    ];
+      id: "1",
+      title: "첫 번째 항목",
+      importance: 1,
+      moveCheck: true,
+      complete: false,
+      date: "2025-04-07",
+      list: [
+        { id: 101, text: "할 일 1", check: false },
+        { id: 102, text: "할 일 2", check: true },
+      ],
+    },
+    {
+      id: "2",
+      title: "두 번째 항목",
+      importance: 1,
+      moveCheck: true,
+      complete: true,
+      date: "2025-04-08",
+      list: [
+        { id: 201, text: "할 일 A", check: true },
+        { id: 202, text: "할 일 B", check: false },
+      ],
+    },
+    {
+      id: "3",
+      title: "세 번째 항목",
+      importance: 1,
+      moveCheck: true,
+      complete: false,
+      date: "2025-04-09",
+      list: [
+        { id: 201, text: "할 일 A", check: true },
+        { id: 202, text: "할 일 B", check: false },
+      ],
+    },
+  ];
+}
 
 // LocalStorage 생성
 const addLocalStorage = () => {
