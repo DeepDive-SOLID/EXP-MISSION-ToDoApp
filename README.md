@@ -130,7 +130,7 @@ function createSubTaskElement(backlogId, subTask) {
 4. 입력창과 버튼에 대한 이벤트
 
 ```
-ocument.querySelectorAll('.backlog').forEach(backlogElement => {
+document.querySelectorAll('.backlog').forEach(backlogElement => {
   const input = backlogElement.querySelector('.sub-task-input');
   const button = backlogElement.querySelector('.add-sub-task-btn');
   const backlogId = parseInt(backlogElement.getAttribute('data-id'), 10);
