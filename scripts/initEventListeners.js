@@ -274,6 +274,13 @@ const initSubTaskEvents = ({ div, backlogId, subTask, textEl, checkbox, delBtn, 
   }
 };
 
+// 완료된 태스크 이벤트
+const initCompletedTaskEvents = ({ item, delBtn }) => {
+  delBtn.addEventListener("click", (e) => {
+      todoDelete(item);
+      renderCompletedTasks(todos);
+  });
+};
 window.addEventListener("updateChecklist", () => {  
   checkListBody();
   renderCompletedTasks(todos);
@@ -283,5 +290,5 @@ window.addEventListener("updateBackLog", () => {
   sortTodos();
 });
 
-export { initCurrentTaskEvents, initSubTaskEvents };
+export { initCurrentTaskEvents, initSubTaskEvents, initCompletedTaskEvents };
 export { initBackLogEvents, highlightUrgentTasks, initBackLogButtons };

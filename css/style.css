@@ -492,6 +492,7 @@ main {
 
 /* 완료된 태스크 날짜 */
 .completedTaskDate {
+    margin-top : 4px;
     font-size: 12px;
     color: #999;
 }
