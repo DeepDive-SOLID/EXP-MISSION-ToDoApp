@@ -1,4 +1,3 @@
-// popup.js
 export function initProfilePopup() {
     const profileImg = document.querySelector(".profile-image");
     const popup = document.querySelector(".profile-popup");
@@ -35,7 +34,7 @@ export function initProfilePopup() {
         }
     });
 
-    // ✅ ESC 키 눌렀을 때 팝업 닫기
+    // ESC 키 눌렀을 때 팝업 닫기
     document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {
             hidePopup();

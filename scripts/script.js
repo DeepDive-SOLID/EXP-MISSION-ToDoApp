@@ -47,6 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // completedTask.js의 함수
     renderCompletedTasks(todos);
 
+    // popup.js의 함수
     initProfilePopup();
 });
 

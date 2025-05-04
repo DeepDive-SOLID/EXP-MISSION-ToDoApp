@@ -23,6 +23,7 @@ body {
     border-bottom: 1px solid #ddd;
 }
 
+/* 프로필 부분 */
 .profile-image {
     width: 36px;
     height: 36px;
@@ -587,7 +588,6 @@ main {
     pointer-events: auto;
 }
 
-/* 기본 숨김 클래스는 여전히 유지 */
 .profile-popup.hidden {
     display: none;
 }
