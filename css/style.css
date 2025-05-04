@@ -18,9 +18,21 @@ body {
     background-color: #ffffff;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     padding: 0 20px;
     border-bottom: 1px solid #ddd;
+}
+
+.profile-image {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.profile-image:hover {
+    transform: scale(1.1);
 }
 
 /* 다크모드 토글 스위치 */
@@ -164,7 +176,7 @@ main {
 }
 /* 추가하는 버튼 */
 .move-btn,
-.move-btn.reverse{
+.move-btn.reverse {
     width: 20px;
     position: absolute;
     right: -10px;
@@ -487,7 +499,7 @@ main {
 
 /* 완료된 태스크 날짜 */
 .completedTaskDate {
-    margin-top : 4px;
+    margin-top: 4px;
     font-size: 12px;
     color: #999;
 }
@@ -533,7 +545,7 @@ main {
     }
 
     .move-btn,
-    .move-btn.reverse{
+    .move-btn.reverse {
         width: 20px;
         position: absolute;
         left: 50%;
@@ -547,4 +559,35 @@ main {
         font-weight: bold;
         color: white;
     }
+}
+
+/* 팝업 스타일 */
+.profile-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9); /* 처음에 살짝 작게 */
+    opacity: 0; /* 처음엔 투명하게 */
+    transition: transform 0.2s ease, opacity 0.2s ease; /* 부드럽게 변화 */
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    padding: 20px;
+    z-index: 100;
+    min-width: 200px;
+    text-align: center;
+    pointer-events: none; /* 안 보일 땐 클릭도 차단 */
+}
+
+/* 팝업이 보일 때 */
+.profile-popup.visible {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1); /* 자연스럽게 확대 */
+    pointer-events: auto;
+}
+
+/* 기본 숨김 클래스는 여전히 유지 */
+.profile-popup.hidden {
+    display: none;
 }

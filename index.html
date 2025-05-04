@@ -9,12 +9,24 @@
     </head>
     <body>
         <header class="header">
-            <input type="checkbox" id="toggle" hidden />
-            <label for="toggle" class="toggleSwitch">
-                <span class="toggleButton"></span>
-            </label>
+            <div class="header-left">
+                <input type="checkbox" id="toggle" hidden />
+                <label for="toggle" class="toggleSwitch">
+                    <span class="toggleButton"></span>
+                </label>
+            </div>
             <h2 class="title">No More Tomorrow Me🔥</h2>
+            <img
+                src="./images/profile.png"
+                alt="Profile"
+                class="profile-image"
+            />
         </header>
+
+        <!-- 팝업: 헤더 바로 아래 위치해야 위치가 어긋나지 않음 -->
+        <div class="profile-popup hidden">
+            <!-- 나영님 팝업 html 추가 -->
+        </div>
 
         <main>
             <!-- 백로그 -->
@@ -26,14 +38,15 @@
 
                 <!-- 백로그 검색 및 추가 -->
                 <div class="backlogHeader">
-                    <input type="text" placeholder="Search tasks..."
-                        class="searchBar" />
+                    <input
+                        type="text"
+                        placeholder="Search tasks..."
+                        class="searchBar"
+                    />
                     <button class="searchButton">🔍︎</button>
                     <button class="addTask">+</button>
                 </div>
-                <div class="backlogScrollArea">
-
-                </div>
+                <div class="backlogScrollArea"></div>
             </section>
 
             <!-- 현재 태스크 -->
@@ -42,8 +55,7 @@
                     <h3 class="sectionTitle">Current Tasks</h3>
                     <hr />
                 </div>
-                <div class="currentScrollArea">
-                </div>
+                <div class="currentScrollArea"></div>
             </section>
 
             <!-- 완료된 태스크 -->
@@ -54,7 +66,6 @@
                 <div class="completedTaskContainer">
                     <!-- JS에서 이 안에 완료된 task가 들어옴 -->
                     <!-- 예시 하나 넣어두면 이런 식 -->
-                    
                 </div>
             </section>
         </main>
