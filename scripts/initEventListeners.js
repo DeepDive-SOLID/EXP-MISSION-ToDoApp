@@ -1,4 +1,4 @@
-import { todoDelete, saveToLocalStorage, todos } from "./script.js";
+import { todoDelete, saveToLocalStorage, todos, completeDelete } from "./script.js";
 import { addEl } from "./element.js";
 import { createTask, sortTodos, backLogList } from "./backlogTask.js";
 import { finishEdit, checkListBody } from "./currentTask.js";
@@ -391,7 +391,7 @@ const completedTaskrestore = ({ restoreEl, backlogId }) => {
 // 완료된 태스크 이벤트
 const initCompletedTaskEvents = ({ item, delBtn }) => {
   delBtn.addEventListener("click", (e) => {
-    todoDelete(item);
+    completeDelete(item);
     renderCompletedTasks(todos);
   });
   sortTodos();
