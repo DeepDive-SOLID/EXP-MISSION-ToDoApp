@@ -1,0 +1,190 @@
+/* 모달 전체 배경 */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* 모달 창 내부 */
+.modalContent {
+  width: 700px;
+  max-width: 90vw;
+  background-color: #f0f8ff;
+  border-radius: 16px;
+  padding: 24px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  position: relative;
+}
+
+/* 닫기 버튼 */
+.closeBtn {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  font-size: 24px;
+  cursor: pointer;
+}
+.hidden {
+  display: none;
+}
+
+/* 헤더 영역 */
+.modalHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.profileIcon {
+  width: 35px;
+  height: 35px;
+  object-fit: cover;
+  padding: 3px;
+  border: 1px solid #222;
+  border-radius: 50%;
+}
+
+.modalHeader p {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* 바디 전체 */
+.modalBody {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* 백로그 영역 */
+.modalBacklog {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 12px;
+}
+
+/* 백로그 타이틀 */
+.modalBodyHeader {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  color: #222;
+}
+
+/* 슬라이더 형식으로 변경 */
+.modalBacklogItem {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  scroll-behavior: smooth;
+}
+
+/* 카드 고정 너비 지정 */
+.backlogCard {
+  flex: 0 0 200px;
+  background-color: #f0f0f0;
+  border-radius: 12px;
+  padding: 16px;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* 스크롤바 */
+.modalBacklogItem::-webkit-scrollbar {
+  height: 5px;
+}
+
+.modalBacklogItem::-webkit-scrollbar-thumb {
+  background-color: #0090fe;
+  border-radius: 4px;
+}
+
+/* 텍스트 */
+.taskTitle {
+  font-weight: bold;
+  font-size: 14px;
+  color: #111;
+}
+
+.taskImportance {
+  font-size: 13px;
+  color: #555;
+}
+
+.taskDue {
+  font-size: 12px;
+  color: #777;
+}
+
+/* 완료태스크 영역 */
+
+.modalComplete {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 12px;
+
+}
+
+/* 섹션 제목 */
+.modalBodyHeader {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #222;
+}
+
+/* 카드 목록 전체 */
+.modalCompleteItem {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  max-height: 150px;
+  padding-right: 10px;
+}
+
+/* 개별 카드 */
+.CompleteDeleteCard {
+  display: flex;
+  justify-content: space-between;
+  background-color: #f0f0f0;
+  border-radius: 6px;
+  padding: 10px 16px;
+  font-size: 14px;
+}
+
+/* 카드 내부 텍스트 */
+.CompleteTaskTitle {
+  font-weight: 500;
+}
+
+.CompleteTaskDue {
+  color: #555;
+  font-size: 13px;
+}
+
+/* 스크롤바 */
+.modalCompleteItem::-webkit-scrollbar {
+  width: 5px;
+}
+.modalCompleteItem::-webkit-scrollbar-thumb {
+  background-color: #0090fe;
+  border-radius: 3px;
+}
+
