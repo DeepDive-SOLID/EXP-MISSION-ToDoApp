@@ -1,8 +1,8 @@
-export const openMypageModal = () => {
+const openMypageModal = () => {
   document.getElementById("mypageModal").classList.remove("hidden");
 }
 
-export const closeMypageModal = () => {
+const closeMypageModal = () => {
   document.getElementById("mypageModal").classList.add("hidden");
 }
 
