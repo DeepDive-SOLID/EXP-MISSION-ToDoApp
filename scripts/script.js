@@ -3,6 +3,7 @@ import { sortTodos } from "./backlogTask.js";
 import { checkListBody } from "./currentTask.js";
 import { renderInitialSubTasks } from "./subTask.js";
 import { renderCompletedTasks } from "./completedTask.js";
+import { mypageModal } from "./mypage.js";
 
 let todos = [];
 
@@ -42,6 +43,9 @@ document.addEventListener("DOMContentLoaded", () => {
   renderInitialSubTasks(); // 하위 태스크 그리기
   // completedTask.js의 함수
   renderCompletedTasks(todos);
+
+  // mypage.js의 함수
+  mypageModal();
 });
 
 export { todoDelete, todos, saveToLocalStorage, displayTodoList };

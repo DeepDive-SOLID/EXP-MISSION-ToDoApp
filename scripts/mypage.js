@@ -1,12 +1,12 @@
-export function openMypageModal() {
+export const openMypageModal = () => {
   document.getElementById("mypageModal").classList.remove("hidden");
 }
 
-export function closeMypageModal() {
+export const closeMypageModal = () => {
   document.getElementById("mypageModal").classList.add("hidden");
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+export const mypageModal = () => {
   const icon = document.getElementById("userIcon");
   const modal = document.getElementById("mypageModal");
   const closeBtn = document.getElementById("closeBtn");
@@ -19,4 +19,4 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (closeBtn) closeBtn.addEventListener("click", closeMypageModal);
-});
+}
