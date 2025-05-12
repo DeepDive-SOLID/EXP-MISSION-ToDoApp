@@ -3,6 +3,7 @@ import { sortTodos } from "./backlogTask.js";
 import { checkListBody } from "./currentTask.js";
 import { renderInitialSubTasks } from "./subTask.js";
 import { renderCompletedTasks } from "./completedTask.js";
+import { saveToBackUpStorage, loadToBackUpStorage } from "./backUplist.js";
 
 let todos = [];
 
@@ -22,6 +23,7 @@ const loadLocalStorage = () => {
 // 처음 로드 되었을 때 localStorage 를 확인 후 있다면 todoList를 생성
 const displayTodoList = () => {
   loadLocalStorage();
+  loadToBackUpStorage();
   sortTodos();
   highlightUrgentTasks();
 };
@@ -30,6 +32,13 @@ const todoDelete = (items) => {
   todos = todos.filter((item) => item.id !== items.id);
   saveToLocalStorage();
 };
+
+// 완료태스크 삭제 기능
+const completeDelete = (items) => {
+  todos = todos.filter((item) => item.id !== items.id);
+  saveToLocalStorage();
+  saveToBackUpStorage(items);
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   // 초기 렌더링 시 localStorage 에 있는 데이터를 렌더링
@@ -44,4 +53,4 @@ document.addEventListener("DOMContentLoaded", () => {
   renderCompletedTasks(todos);
 });
 
-export { todoDelete, todos, saveToLocalStorage, displayTodoList };
+export { todoDelete, todos, saveToLocalStorage, displayTodoList, completeDelete };
