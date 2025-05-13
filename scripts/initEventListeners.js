@@ -6,6 +6,7 @@ import { toggleSubtask, initSubtaskAddButtons, renderInitialSubTasks } from "./s
 import { renderCompletedTasks } from "./completedTask.js";
 import { modalBacklogListBody } from "./modalBackLog.js";
 import { modalCompletedList } from "./completedDeleteList.js";
+import { loadToBackUpStorage } from "./backUplist.js";
 
 // 다크모드
 document.addEventListener("DOMContentLoaded", () => {
@@ -403,6 +404,7 @@ const initCompletedTaskEvents = ({ item, delBtn }) => {
 export const openMypageModalEvents = (icon) => {
   icon.addEventListener("click", (e) => {
     document.getElementById("mypageModal").classList.remove("hidden");
+    loadToBackUpStorage();
     modalBacklogListBody();
     modalCompletedList();
   });
