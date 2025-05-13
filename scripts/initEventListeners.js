@@ -77,7 +77,6 @@ const editBtnEvent = ({ state, finishDateContent, backLogTaskContent, editBtn, i
       if (state.editing) {
         finishDateContent.disabled = true;
         state.editing = false;
-        sortTodos();
       }
       e.target.disabled = true;
       state.title = true;
