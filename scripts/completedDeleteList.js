@@ -1,11 +1,18 @@
+import { backUpdata } from "./backUplist.js";
 import { addEl } from "./element.js";
 
-let data = [];
 const completeContainer = document.querySelector(".modalCompleteItem");
 
 const modalCompletedList = () => {
   completeContainer.innerHTML = "";
-  data.forEach((item) => completeContainer.appendChild(completedDeleteListEl(item)));
+  backUpdata
+    .sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      if (dateA < dateB) return -1;
+      if (dateA > dateB) return 1;
+    })
+    .forEach((item) => completeContainer.appendChild(completedDeleteListEl(item)));
 };
 
 const completedDeleteListEl = (item) => {
@@ -17,14 +24,5 @@ const completedDeleteListEl = (item) => {
 
   return completeCardEl;
 };
-
-const loadBackUpDate = () => {
-  const backup = localStorage.getItem("backUpDataList");
-  if (backup) {
-    data = JSON.parse(backup);
-  }
-};
-
-loadBackUpDate();
 
 export { modalCompletedList };
