@@ -20,8 +20,26 @@ document.addEventListener("DOMContentLoaded", () => {
 const initBackLogEvents = ({ finishDateContent, backLogTaskContent, backLogContainer, editBtn, deleteBtn, dropdownOptions, selected, label, items }) => {
   const state = { editing: false, title: false, date: false };
 
+  // 외부 클릭 감지만 따로 처리
+  handleOutsideClick(state, finishDateContent, backLogTaskContent);
+
+  editBtnEvent({ state, finishDateContent, backLogTaskContent, editBtn, items });
+  deleteBtnEvent({ backLogContainer, deleteBtn, items });
+  selectedEvent({ state, selected, dropdownOptions, label, items });
+  arrowEvent({ backLogContainer, items });
+  searchBtnEvent();
+};
+
+// 백로그 외부 클릭 감지 함수
+const handleOutsideClick = (state, finishDateContent, backLogTaskContent) => {
   document.addEventListener("click", (e) => {
-    if ((state.editing && !backLogContainer.contains(e.target)) || (state.title && state.date)) {
+    const allTaskContainers = document.querySelectorAll(".taskContainer");
+
+    const clickedInsideAny = Array.from(allTaskContainers).some(container =>
+      container.contains(e.target)
+    );
+
+    if ((state.editing && !clickedInsideAny) || (state.title && state.date)) {
       finishDateContent.disabled = true;
       backLogTaskContent.disabled = true;
       state.editing = false;
@@ -32,12 +50,6 @@ const initBackLogEvents = ({ finishDateContent, backLogTaskContent, backLogConta
       renderInitialSubTasks();
     }
   });
-
-  editBtnEvent({ state, finishDateContent, backLogTaskContent, editBtn, items });
-  deleteBtnEvent({ backLogContainer, deleteBtn, items });
-  selectedEvent({ state, selected, dropdownOptions, label, items });
-  arrowEvent({ backLogContainer, items });
-  searchBtnEvent();
 };
 
 // 백로그 이벤트 - edit 버튼 이벤트
