@@ -4,6 +4,7 @@ import { createTask, sortTodos, backLogList } from "./backlogTask.js";
 import { finishEdit, checkListBody } from "./currentTask.js";
 import { toggleSubtask, initSubtaskAddButtons, renderInitialSubTasks } from "./subTask.js";
 import { renderCompletedTasks } from "./completedTask.js";
+import { modalBacklogListBody } from "./modalBackLog.js";
 
 // 다크모드
 document.addEventListener("DOMContentLoaded", () => {
@@ -395,6 +396,29 @@ const initCompletedTaskEvents = ({ item, delBtn }) => {
     renderCompletedTasks(todos);
   });
   sortTodos();
+};
+
+// 모달 창 열기 이벤트
+export const openMypageModalEvents = (icon) => {
+  icon.addEventListener("click", (e) => {
+    document.getElementById("mypageModal").classList.remove("hidden");
+    modalBacklogListBody();
+  });
+};
+
+// 모달 창 닫기 이벤트
+export const closeMypageModalEvents = (modal, closeBtn) => {
+  modal.addEventListener("click", (e) => {
+    if (e.target.id === "mypageModal") {
+      document.getElementById("mypageModal").classList.add("hidden");
+      modalBacklogListBody();
+    }
+  });
+
+  closeBtn.addEventListener("click", () => {
+    document.getElementById("mypageModal").classList.add("hidden");
+    modalBacklogListBody();
+  });
 };
 
 window.addEventListener("updateChecklist", () => {
