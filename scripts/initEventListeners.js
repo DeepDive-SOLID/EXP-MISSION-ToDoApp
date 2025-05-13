@@ -5,7 +5,7 @@ import { finishEdit, checkListBody } from "./currentTask.js";
 import { toggleSubtask, initSubtaskAddButtons, renderInitialSubTasks } from "./subTask.js";
 import { renderCompletedTasks } from "./completedTask.js";
 import { modalBacklogListBody } from "./modalBackLog.js";
-import { completedDeleteListEl } from "./completedDeleteList.js";
+import { modalCompletedList } from "./completedDeleteList.js";
 
 // 다크모드
 document.addEventListener("DOMContentLoaded", () => {
@@ -404,7 +404,7 @@ export const openMypageModalEvents = (icon) => {
   icon.addEventListener("click", (e) => {
     document.getElementById("mypageModal").classList.remove("hidden");
     modalBacklogListBody();
-    completedDeleteListEl();
+    modalCompletedList();
   });
 };
 
