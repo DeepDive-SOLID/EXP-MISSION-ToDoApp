@@ -1,5 +1,8 @@
+import { completedDeleteListEl } from "./completedDeleteList.js";
+
 const openMypageModal = () => {
   document.getElementById("mypageModal").classList.remove("hidden");
+  completedDeleteListEl();
 }
 
 const closeMypageModal = () => {
