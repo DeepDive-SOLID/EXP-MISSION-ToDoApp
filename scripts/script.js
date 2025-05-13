@@ -5,6 +5,7 @@ import { renderInitialSubTasks } from "./subTask.js";
 import { renderCompletedTasks } from "./completedTask.js";
 import { mypageModal } from "./mypage.js";
 import { saveToBackUpStorage, loadToBackUpStorage } from "./backUplist.js";
+import { modalBacklogListBody } from './modalBackLog.js';
 
 
 let todos = [];
@@ -56,6 +57,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // mypage.js의 함수
   mypageModal();
+  // modalProfileBackLog.js의 함수
+  modalBacklogListBody();
 });
 
 export { todoDelete, todos, saveToLocalStorage, displayTodoList, completeDelete };
