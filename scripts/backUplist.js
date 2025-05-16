@@ -1,4 +1,4 @@
-let backUpdata = [];
+export let backUpdata = [];
 
 export const saveToBackUpStorage = (item) => {
   const backUpdata = {

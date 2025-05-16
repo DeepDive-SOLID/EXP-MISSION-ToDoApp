@@ -5,6 +5,8 @@ import { finishEdit, checkListBody } from "./currentTask.js";
 import { toggleSubtask, initSubtaskAddButtons, renderInitialSubTasks } from "./subTask.js";
 import { renderCompletedTasks } from "./completedTask.js";
 import { modalBacklogListBody } from "./modalBackLog.js";
+import { modalCompletedList } from "./completedDeleteList.js";
+import { loadToBackUpStorage } from "./backUplist.js";
 
 // 다크모드
 document.addEventListener("DOMContentLoaded", () => {
@@ -136,14 +138,14 @@ const arrowEvent = ({ backLogContainer, items }) => {
     const smallScreen = window.innerWidth <= 768;
 
     // 화살표 결정
-    const btnText = smallScreen ? (items.moveCheck ? "⭡" : "⭣") : (items.moveCheck ? "⭠" : "⭢");
+    const btnText = smallScreen ? (items.moveCheck ? "⭡" : "⭣") : items.moveCheck ? "⭠" : "⭢";
     const moveBtn = addEl("button", "move-btn", btnText);
 
     // 방향 버튼 클릭 시
     moveBtn.addEventListener("click", () => {
       items.moveCheck = !items.moveCheck;
       const smallScreen = window.innerWidth <= 768;
-      moveBtn.textContent = smallScreen ? (items.moveCheck ? "⭡" : "⭣") : (items.moveCheck ? "⭠" : "⭢");
+      moveBtn.textContent = smallScreen ? (items.moveCheck ? "⭡" : "⭣") : items.moveCheck ? "⭠" : "⭢";
       window.dispatchEvent(new CustomEvent("updateChecklist"));
       saveToLocalStorage();
       renderInitialSubTasks();
@@ -402,7 +404,9 @@ const initCompletedTaskEvents = ({ item, delBtn }) => {
 export const openMypageModalEvents = (icon) => {
   icon.addEventListener("click", (e) => {
     document.getElementById("mypageModal").classList.remove("hidden");
+    loadToBackUpStorage();
     modalBacklogListBody();
+    modalCompletedList();
   });
 };
 
@@ -411,13 +415,11 @@ export const closeMypageModalEvents = (modal, closeBtn) => {
   modal.addEventListener("click", (e) => {
     if (e.target.id === "mypageModal") {
       document.getElementById("mypageModal").classList.add("hidden");
-      modalBacklogListBody();
     }
   });
 
   closeBtn.addEventListener("click", () => {
     document.getElementById("mypageModal").classList.add("hidden");
-    modalBacklogListBody();
   });
 };
 
