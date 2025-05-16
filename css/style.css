@@ -39,6 +39,7 @@ body {
   border-radius: 50%;
   object-fit: cover;
   cursor: pointer;
+  color: #111;
 }
 
 /* 다크모드 토글 스위치 */
