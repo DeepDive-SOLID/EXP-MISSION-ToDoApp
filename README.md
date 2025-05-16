@@ -64,6 +64,22 @@
                - ```toggleSubtask()``` : 체크리스트 본문 토글 버튼 연결
 
             - element.js : html element 생성 js 파일
+           
+            - mypage.js : 사용자 페이지 요소 생성 js 파일
+               - ```mypageModal()``` : 아이콘, 모달, 닫기 버튼 생성 함수
+           
+            - backUplist.js : 작성했던 할일 목록을 보여주기 위한 js 파일
+               - ```saveToBackUpStorage()``` : Backup 리스트 로컬 스토리지 저장 함수
+               - ```loadToBackUpStorage()``` : Backup 리스트 로컬 스토리지 로드 함수
+
+            - completedDeleteList.js : 사용자 페이지에서 작성 했던 할일 목록을 보여주기 위한 js 파일
+               - ```modalCompletedList()``` : 작성 했던 할일 목록 정렬 및 랜더링 함수
+               - ```completedDeleteListEl()``` : 작성 했던 할일 목록 요소 생성 함수
+             
+            - modalBackLog.js : 사용자 페이지의 현재 할일 목록 랜더링 및 생성 js 파일
+               - ```modalBacklogListBody()``` : 할일 목록 정렬 및 랜더링 함수
+               - ```addModalBacklogListBodyElement()``` : 할일 목록 요소 생성 함수
+
             - initEventListeners.js : 각 파일의 이벤트 관리 js 파일 
                - 백로그 
                   - ```initBackLogEvents()``` : 전체 백로그 초기화 이벤트
@@ -90,11 +106,16 @@
               - 완료된 태스크
                  - ```completedTaskrestore()``` : 완료된 태스크 -> 체크리스트 복귀 이벤트
                  - ```initCompletedTaskEvents()``` : 완료된 태스크 삭제 이벤트
+               
+               - 사용자 페이지
+                  -  ```openMypageModalEvents()``` : 사용자 페이지 모달 창 열기 이벤트
+                  -  ```closeMypageModalEvents()``` : 사용자 페이지 모달 창 닫기 이벤트
 
 ---
    - 주요 기능 코드
    <details>
    <summary>로컬 스토리지 사용</summary>
+   메인 페이지 데이터 저장 로컬 스토리지
       
    ```javascript
    // localStorage에 List 저장
@@ -116,6 +137,33 @@
      loadLocalStorage();
      sortTodos();
      highlightUrgentTasks();
+   };
+   ```
+
+   사용자 페이지 데이터(작성 했던 할일 목록) 저장 로컬 스토리지
+   ```javascript
+   export let backUpdata = [];
+
+   export const saveToBackUpStorage = (item) => {
+     const backUpdata = {
+       id: item.id,
+       title: item.title,
+       date: item.date,
+     };
+   
+     // 기존 백업 데이터를 불러오거나 새 배열 생성
+     const existing = JSON.parse(localStorage.getItem("backUpDataList")) || [];
+     existing.push(backUpdata);
+   
+     // 다시 저장
+     localStorage.setItem("backUpDataList", JSON.stringify(existing));
+   };
+   
+   export const loadToBackUpStorage = () => {
+     const data = localStorage.getItem("backUpDataList");
+     if (data) {
+       backUpdata = JSON.parse(data);
+     }
    };
    ```
    </details>
