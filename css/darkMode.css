@@ -73,8 +73,6 @@ body.dark-mode {
   color: #63e6ff;
 }
 
-
-
 /* 다크모드 스크롤바 */
 .dark-mode ::-webkit-scrollbar {
   width: 8px;
@@ -93,7 +91,6 @@ body.dark-mode {
 .dark-mode ::-webkit-scrollbar-thumb:hover {
   background-color: #888;
 }
-
 
 /* -------------------- 태스크 입력 및 관리 -------------------- */
 /* 메인 태스크 박스 */
@@ -330,4 +327,92 @@ body.dark-mode {
 .dark-mode .completedTaskDate {
   font-size: 12px;
   color: #999;
+}
+
+/* -------------------- 마이페이지 모달 -------------------- */
+.dark-mode .modalContent {
+  background-color: #1e1e1e;
+  color: #f1f1f1;
+  border-radius: 16px;
+}
+
+/* x 버튼 */
+.dark-mode .closeBtn {
+  color: #f1f1f1;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* 모달 헤더 */
+.dark-mode .modalHeader {
+  border-bottom: 1px solid #333;
+}
+
+.dark-mode .modalHeader p {
+  color: #f1f1f1;
+}
+
+.dark-mode .mypageIcon path {
+  fill: #ffffff;
+}
+
+/* 섹션 공통 제목 */
+.dark-mode .modalBodyHeader {
+  color: #f1f1f1;
+}
+
+/* -------------------- 백로그 카드 슬라이더 -------------------- */
+.dark-mode .modalBacklog {
+  background-color: #2a2a2a;
+}
+
+.dark-mode .backlogCard {
+  background-color: #3c3c3c;
+  color: #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* -------------------- 완료 태스크 리스트 -------------------- */
+.dark-mode .modalComplete {
+  background-color: #2a2a2a;
+}
+
+.dark-mode .CompleteDeleteCard {
+  background-color: #3a3a3a;
+  color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.dark-mode .CompleteTaskTitle {
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.dark-mode .CompleteTaskDue {
+  color: #cccccc;
+}
+
+.dark-mode .taskTitle,
+.dark-mode .CompleteTaskTitle {
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* -------------------- 스크롤바 -------------------- */
+.dark-mode .modalBacklogItem::-webkit-scrollbar,
+.dark-mode .modalComplete::-webkit-scrollbar {
+  height: 8px;
+  width: 6px;
+}
+
+.dark-mode .modalBacklogItem::-webkit-scrollbar-thumb,
+.dark-mode .modalComplete::-webkit-scrollbar-thumb {
+  background-color: #666;
+  border-radius: 6px;
+  border: 2px solid #2a2a2a;
+}
+
+.dark-mode .modalBacklogItem::-webkit-scrollbar-track,
+.dark-mode .modalComplete::-webkit-scrollbar-track {
+  background-color: #1e1e1e;
 }

@@ -1,9 +1,12 @@
-import { todoDelete, saveToLocalStorage, todos } from "./script.js";
+import { todoDelete, saveToLocalStorage, todos, completeDelete } from "./script.js";
 import { addEl } from "./element.js";
 import { createTask, sortTodos, backLogList } from "./backlogTask.js";
 import { finishEdit, checkListBody } from "./currentTask.js";
 import { toggleSubtask, initSubtaskAddButtons, renderInitialSubTasks } from "./subTask.js";
 import { renderCompletedTasks } from "./completedTask.js";
+import { modalBacklogListBody } from "./modalBackLog.js";
+import { modalCompletedList } from "./completedDeleteList.js";
+import { loadToBackUpStorage } from "./backUplist.js";
 
 // 다크모드
 document.addEventListener("DOMContentLoaded", () => {
@@ -135,14 +138,14 @@ const arrowEvent = ({ backLogContainer, items }) => {
     const smallScreen = window.innerWidth <= 768;
 
     // 화살표 결정
-    const btnText = smallScreen ? (items.moveCheck ? "⭡" : "⭣") : (items.moveCheck ? "⭠" : "⭢");
+    const btnText = smallScreen ? (items.moveCheck ? "⭡" : "⭣") : items.moveCheck ? "⭠" : "⭢";
     const moveBtn = addEl("button", "move-btn", btnText);
 
     // 방향 버튼 클릭 시
     moveBtn.addEventListener("click", () => {
       items.moveCheck = !items.moveCheck;
       const smallScreen = window.innerWidth <= 768;
-      moveBtn.textContent = smallScreen ? (items.moveCheck ? "⭡" : "⭣") : (items.moveCheck ? "⭠" : "⭢");
+      moveBtn.textContent = smallScreen ? (items.moveCheck ? "⭡" : "⭣") : items.moveCheck ? "⭠" : "⭢";
       window.dispatchEvent(new CustomEvent("updateChecklist"));
       saveToLocalStorage();
       renderInitialSubTasks();
@@ -315,7 +318,10 @@ const checkboxEvent = ({ div, backlogId, subTask, textEl, checkbox }) => {
 
     const allChecked = backlog.list.every((sub) => sub.check === true);
     backlog.complete = allChecked;
-    if (allChecked) window.dispatchEvent(new CustomEvent("updateChecklist"));
+    if (allChecked) {
+      window.dispatchEvent(new CustomEvent("updateChecklist"));
+      sortTodos();
+    }
     renderInitialSubTasks();
     saveToLocalStorage();
   });
@@ -391,10 +397,32 @@ const completedTaskrestore = ({ restoreEl, backlogId }) => {
 // 완료된 태스크 이벤트
 const initCompletedTaskEvents = ({ item, delBtn }) => {
   delBtn.addEventListener("click", (e) => {
-    todoDelete(item);
+    completeDelete(item);
     renderCompletedTasks(todos);
   });
-  sortTodos();
+};
+
+// 모달 창 열기 이벤트
+export const openMypageModalEvents = (icon) => {
+  icon.addEventListener("click", (e) => {
+    document.getElementById("mypageModal").classList.remove("hidden");
+    loadToBackUpStorage();
+    modalBacklogListBody();
+    modalCompletedList();
+  });
+};
+
+// 모달 창 닫기 이벤트
+export const closeMypageModalEvents = (modal, closeBtn) => {
+  modal.addEventListener("click", (e) => {
+    if (e.target.id === "mypageModal") {
+      document.getElementById("mypageModal").classList.add("hidden");
+    }
+  });
+
+  closeBtn.addEventListener("click", () => {
+    document.getElementById("mypageModal").classList.add("hidden");
+  });
 };
 
 window.addEventListener("updateChecklist", () => {
