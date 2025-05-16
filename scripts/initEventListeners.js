@@ -318,7 +318,10 @@ const checkboxEvent = ({ div, backlogId, subTask, textEl, checkbox }) => {
 
     const allChecked = backlog.list.every((sub) => sub.check === true);
     backlog.complete = allChecked;
-    if (allChecked) window.dispatchEvent(new CustomEvent("updateChecklist"));
+    if (allChecked) {
+      window.dispatchEvent(new CustomEvent("updateChecklist"));
+      sortTodos();
+    }
     renderInitialSubTasks();
     saveToLocalStorage();
   });
@@ -397,7 +400,6 @@ const initCompletedTaskEvents = ({ item, delBtn }) => {
     completeDelete(item);
     renderCompletedTasks(todos);
   });
-  sortTodos();
 };
 
 // 모달 창 열기 이벤트
