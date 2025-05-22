@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // 전체 백로그 이벤트 초기화
-const initBackLogEvents = ({ finishDateContent, backLogTaskContent, backLogContainer, editBtn, deleteBtn, dropdownOptions, selected, label, items }) => {
+const initBackLogEvents = ({ finishDateContent, backLogTaskContent, backLogContainer, editBtn, deleteBtn, dropdownOptions, selected, label, items, selectedCircle }) => {
   const state = { editing: false, title: false, date: false };
 
   document.addEventListener("click", (e) => {
@@ -30,6 +30,8 @@ const initBackLogEvents = ({ finishDateContent, backLogTaskContent, backLogConta
       state.title = false;
       state.date = false;
       sortTodos();
+      checkListBody();
+      renderInitialSubTasks();
       window.dispatchEvent(new CustomEvent("updateChecklist"));
       renderInitialSubTasks();
     }
@@ -37,7 +39,7 @@ const initBackLogEvents = ({ finishDateContent, backLogTaskContent, backLogConta
 
   editBtnEvent({ state, finishDateContent, backLogTaskContent, editBtn, items });
   deleteBtnEvent({ backLogContainer, deleteBtn, items });
-  selectedEvent({ state, selected, dropdownOptions, label, items });
+  selectedEvent({ state, selected, dropdownOptions, label, items, selectedCircle });
   arrowEvent({ backLogContainer, items });
   searchBtnEvent();
 };
@@ -95,31 +97,31 @@ const deleteBtnEvent = ({ backLogContainer, deleteBtn, items }) => {
 };
 
 // 백로그 이벤트 - 중요도 변경 이벤트
-const selectedEvent = ({ state, selected, dropdownOptions, label, items }) => {
+const selectedEvent = ({ state, selected, dropdownOptions, label, items, selectedCircle }) => {
   // dropDownElement ( ul ) 안에 있는 li 를 가져온다
   const importanceList = dropdownOptions.querySelectorAll("li");
   importanceList.forEach((li, index) => {
     li.addEventListener("click", () => {
       // li 가 리스트 형식으로 들어오기 때문에 index 0-2 존재
       // 0 - 상, 1 - 중, 2 - 하
+      // 새롭게 렌더링이 아닌 기존 className 을 지우고 새롭게 부여
+      selectedCircle.classList.remove("low", "medium", "high");
       items.importance = index + 1;
       // 중요도 1, 2, 3 에 대해 그때에 해당하는 스타일을 보여주는 삼항 연산자
-      items.importance === 1 ? (label.innerText = "상") : items.importance === 2 ? (label.innerText = "중") : (label.innerText = "하");
-      if (!state.editing) {
-        sortTodos();
-        checkListBody();
-        renderInitialSubTasks();
-      }
+      items.importance === 1
+        ? ((label.innerText = "상"), selectedCircle.classList.add("high"))
+        : items.importance === 2
+        ? ((label.innerText = "중"), selectedCircle.classList.add("medium"))
+        : ((label.innerText = "하"), selectedCircle.classList.add("low"));
     });
   });
 
   selected.addEventListener("click", () => {
-    dropdownOptions.classList.toggle("hidden");
+    if ((items.title === "" && items.date === "") || state.editing) dropdownOptions.classList.toggle("hidden");
   });
 
-  dropdownOptions.querySelectorAll("li").forEach((option) => {
-    dropdownOptions.addEventListener("click", () => {
-      selected.innerHTML = option.innerHTML;
+  dropdownOptions.querySelectorAll("li").forEach((li) => {
+    li.addEventListener("click", () => {
       dropdownOptions.classList.add("hidden");
     });
   });
