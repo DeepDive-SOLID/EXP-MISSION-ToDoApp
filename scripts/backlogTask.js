@@ -125,7 +125,7 @@ const addBackLogElement = (items) => {
   // 삭제 버튼 생성
   const deleteBtn = addEl("button", "delete", "🗑︎");
 
-  initBackLogEvents({ finishDateContent, backLogTaskContent, backLogContainer, editBtn, deleteBtn, dropdownOptions, selected, label, items });
+  initBackLogEvents({ finishDateContent, backLogTaskContent, backLogContainer, editBtn, deleteBtn, dropdownOptions, selected, label, items, selectedCircle });
 
   backLogMainContainer.append(backLogTaskContent, importanceContainer, editBtn, deleteBtn, finishDateContainer);
   backLogContainer.appendChild(backLogMainContainer);
