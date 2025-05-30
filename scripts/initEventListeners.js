@@ -30,8 +30,6 @@ const initBackLogEvents = ({ finishDateContent, backLogTaskContent, backLogConta
       state.title = false;
       state.date = false;
       sortTodos();
-      checkListBody();
-      renderInitialSubTasks();
       window.dispatchEvent(new CustomEvent("updateChecklist"));
       renderInitialSubTasks();
     }
