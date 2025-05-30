@@ -285,7 +285,9 @@ main {
 
 /* edit, delete 버튼 */
 .edit,
-.delete {
+.delete,
+.restore
+ {
   width: 40px;
   padding: 6px 10px;
   font-size: 14px;
@@ -525,15 +527,6 @@ main {
   display: flex;
   align-items: center;
   gap: 10px;
-}
-
-.restore,
-.delete {
-  border-radius: 6px;
-  border: none;
-  padding: 6px 10px;
-  background-color: #e0e0e0;
-  cursor: pointer;
 }
 
 @media screen and (max-width: 768px) {
